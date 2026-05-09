@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Button } from "@commute-iq/ui/components/button";
-
-import { createBrowserSupabaseClient } from "../../lib/supabase/browser";
 
 const emailSchema = z
   .string({ required_error: "Vui lòng nhập email." })
@@ -46,8 +44,6 @@ export function SignInForm({ next }: SignInFormProps) {
   const [message, setMessage] = useState<string | null>(null);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const inFlightRef = useRef(false);
-
-  const supabase = useMemo(() => createBrowserSupabaseClient(), []);
 
   useEffect(() => {
     if (status !== "cooldown") return;
@@ -102,27 +98,33 @@ export function SignInForm({ next }: SignInFormProps) {
     setMessage(null);
 
     try {
-      const callback = new URL("/auth/callback", window.location.origin);
-      callback.searchParams.set("next", next);
-
-      const { error } = await supabase.auth.signInWithOtp({
-        email: parsed.data,
-        options: { emailRedirectTo: callback.toString() }
+      const response = await fetch("/api/auth/magic-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: parsed.data, next })
       });
 
-      if (error) {
-        if (error.status === 429) {
+      const body = (await response.json().catch(() => null)) as
+        | { ok?: boolean; channel?: "supabase" | "resend"; error?: string }
+        | null;
+
+      if (!response.ok || !body?.ok) {
+        if (response.status === 429) {
           startCooldown(parsed.data, true);
           return;
         }
         setStatus("error");
-        setMessage(error.message);
+        setMessage(body?.error ?? "Không gửi được link. Vui lòng thử lại.");
         return;
       }
 
       writeCooldown(parsed.data);
       setStatus("sent");
-      setMessage("Kiểm tra email — link đăng nhập đã được gửi.");
+      setMessage(
+        body.channel === "resend"
+          ? "Đã gửi link đăng nhập (qua kênh dự phòng). Kiểm tra email."
+          : "Kiểm tra email — link đăng nhập đã được gửi."
+      );
     } catch (error: unknown) {
       setStatus("error");
       setMessage(getErrorMessage(error));
