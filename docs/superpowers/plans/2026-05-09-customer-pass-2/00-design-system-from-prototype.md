@@ -8,6 +8,8 @@
 
 **Branch:** `feat/design-system-prototype` from `main`.
 
+**Status:** Done — prototype tokens, fonts, Tailwind colors/shadows, and shared UI component restyles are present in the local workspace.
+
 **Depends on:** none. **Recommended to land before plans 01–05.** Existing customer features (calculator, money leak, dark mode) are easy to retheme afterward.
 
 ---

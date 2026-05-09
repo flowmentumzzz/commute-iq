@@ -10,6 +10,8 @@
 
 **Branch:** `feat/auth-magic-link` from `main`.
 
+**Status:** In progress — Supabase auth dependencies are present, but the auth clients, middleware, sign-in page, callback route, sign-out route, and auth status component are not present.
+
 **Depends on:** plan 00 (design system) — recommended so the sign-in card and `<AuthStatus />` already use the prototype palette.
 
 **Design reference:** [`./index.html`](../../../../index.html) at repo root. The sign-in surface should use the same paper card, ink borders, lime CTA, and DM Mono labels as the prototype. The `<AuthStatus />` chip in the nav should mirror the prototype's brand-tag + pill aesthetic.

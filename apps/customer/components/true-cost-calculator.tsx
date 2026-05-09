@@ -33,7 +33,7 @@ interface CalculatorState {
 }
 
 const DEFAULT_STATE: CalculatorState = {
-  motorbikeId: motorbikeModels[1]?.id ?? motorbikeModels[0].id,
+  motorbikeId: motorbikeModels.find((m) => m.id === "honda-vision")?.id ?? motorbikeModels[0].id,
   monthlyKm: 280,
   rainyDays: 14,
   coffeeStopsPerWeek: 3,
@@ -100,10 +100,12 @@ export function TrueCostCalculator() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-      <Card className="border-primary/20 bg-card/95">
+      <Card>
         <CardHeader className="gap-4">
-          <Badge className="w-fit">True Cost Calculator</Badge>
-          <CardTitle className="font-display text-3xl font-black leading-tight tracking-tight md:text-5xl">
+          <Badge variant="destructive" className="w-fit">
+            ✨ True Cost
+          </Badge>
+          <CardTitle className="font-display text-3xl font-extrabold leading-tight tracking-tight md:text-5xl">
             Chi phí đi lại thật của bạn
           </CardTitle>
           <CardDescription className="text-base">
@@ -111,28 +113,35 @@ export function TrueCostCalculator() {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-5 md:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-3xl bg-primary p-6 text-primary-foreground">
-            <p className="text-sm opacity-80">Mỗi tháng bạn tốn</p>
-            <p className="mt-3 font-display text-4xl font-black md:text-5xl">
-              {currency.format(result.totalMonthlyVnd)}
-            </p>
-            {salaryPercent !== null && (
-              <p className="mt-3 text-sm opacity-80">
-                Chiếm <strong>{salaryPercent}%</strong> lương tháng của bạn.
+          <div className="relative overflow-hidden rounded-2xl border-2 border-foreground bg-foreground p-6 text-paper shadow-brutal">
+            <div className="pointer-events-none absolute -right-10 -top-10 size-36 rounded-full bg-coral/35 blur-2xl" />
+            <div className="relative">
+              <p className="font-mono text-[11px] uppercase tracking-widest opacity-70">
+                Mỗi tháng bạn tốn
               </p>
-            )}
-            <div className="mt-5 grid grid-cols-2 gap-3 text-xs">
-              <BreakdownPill label="Trực tiếp" value={result.breakdown.directMonthlyVnd} />
-              <BreakdownPill label="Khấu hao" value={result.breakdown.amortizedMonthlyVnd} />
-              <BreakdownPill label="Mưa" value={result.breakdown.weatherMonthlyVnd} />
-              <BreakdownPill label="Thói quen" value={result.breakdown.routineMonthlyVnd} />
+              <p className="mt-3 font-display text-4xl font-black leading-none tracking-tight md:text-5xl">
+                <span className="rounded-md bg-lime px-1.5 text-foreground">
+                  {currency.format(result.totalMonthlyVnd)}
+                </span>
+              </p>
+              {salaryPercent !== null && (
+                <p className="mt-4 text-sm opacity-90">
+                  Chiếm <strong className="text-lime">{salaryPercent}%</strong> lương tháng của bạn.
+                </p>
+              )}
+              <div className="mt-5 grid grid-cols-2 gap-2 text-xs">
+                <BreakdownPill label="Trực tiếp" value={result.breakdown.directMonthlyVnd} />
+                <BreakdownPill label="Khấu hao" value={result.breakdown.amortizedMonthlyVnd} />
+                <BreakdownPill label="Mưa" value={result.breakdown.weatherMonthlyVnd} />
+                <BreakdownPill label="Thói quen" value={result.breakdown.routineMonthlyVnd} />
+              </div>
             </div>
           </div>
           <CommuteBreakdownChart breakdown={result.breakdown} />
         </CardContent>
       </Card>
 
-      <Card className="bg-card/90">
+      <Card>
         <CardHeader>
           <CardTitle>Thói quen của bạn</CardTitle>
           <CardDescription>Các con số cập nhật ngay khi bạn thay đổi.</CardDescription>
@@ -180,9 +189,11 @@ export function TrueCostCalculator() {
 
 function BreakdownPill({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl bg-primary-foreground/10 px-3 py-2">
-      <p className="text-[10px] uppercase tracking-wider opacity-70">{label}</p>
-      <p className="mt-1 text-sm font-semibold">{currency.format(value)}</p>
+    <div className="rounded-xl border border-paper/15 bg-paper/10 px-3 py-2">
+      <p className="font-mono text-[10px] uppercase tracking-wider opacity-70">{label}</p>
+      <p className="mt-1 font-display text-sm font-bold tabular-nums">
+        {currency.format(value)}
+      </p>
     </div>
   );
 }
@@ -201,9 +212,12 @@ function RangeField({ label, value, min, max, step, unit, onChange }: RangeField
   return (
     <label className="flex flex-col gap-2">
       <span className="flex items-baseline justify-between text-sm">
-        <span className="font-medium">{label}</span>
+        <span className="font-display font-semibold">{label}</span>
         <span className="font-display text-base font-bold tabular-nums">
-          {value.toLocaleString("vi-VN")} {unit}
+          {value.toLocaleString("vi-VN")}{" "}
+          <span className="font-mono text-[10px] font-normal uppercase tracking-wider text-ink-soft">
+            {unit}
+          </span>
         </span>
       </span>
       <input
@@ -229,11 +243,11 @@ interface SelectFieldProps {
 function SelectField({ label, value, options, onChange }: SelectFieldProps) {
   return (
     <label className="flex flex-col gap-2">
-      <span className="text-sm font-medium">{label}</span>
+      <span className="font-display text-sm font-semibold">{label}</span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-11 rounded-xl border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+        className="h-11 rounded-xl border-2 border-foreground bg-paper px-3 text-sm font-medium shadow-brutal-sm focus:outline-none focus:ring-2 focus:ring-ring"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -254,10 +268,10 @@ function SalaryField({ state, setState }: SalaryFieldProps) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-baseline justify-between text-sm">
-        <span className="font-medium">Lương tháng (tuỳ chọn)</span>
+        <span className="font-display font-semibold">Lương tháng (tuỳ chọn)</span>
         <button
           type="button"
-          className="text-xs text-muted-foreground underline-offset-2 hover:underline"
+          className="font-mono text-[10px] uppercase tracking-wider text-ink-soft underline-offset-2 hover:underline"
           onClick={() => setState((s) => ({ ...s, considerSalary: !s.considerSalary }))}
         >
           {state.considerSalary ? "Bỏ qua" : "Tính %"}

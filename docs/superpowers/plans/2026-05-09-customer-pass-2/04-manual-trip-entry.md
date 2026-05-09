@@ -10,6 +10,8 @@
 
 **Branch:** `feat/manual-trip-entry` from `main`.
 
+**Status:** Not done — the transaction storage utility, API route, manual trip form, trip list, and Money Leak localStorage integration are not present.
+
 **Depends on:** plan 00 (design system) for visual consistency, and plan 01 (auth) is **recommended** because the API-backed save needs a signed-in user. The localStorage-only flow described below works without auth.
 
 **Design reference:** [`./index.html`](../../../../index.html). The trip-list rows should mirror the prototype's `.trip` block (icon chip + name + time + price, neo-brutalist border + shadow). The form should use prototype input styling (thick-bordered fields, lime focus ring).

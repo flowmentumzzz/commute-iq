@@ -8,6 +8,8 @@
 
 **Branch:** `feat/welcome-banner` from `main`.
 
+**Status:** Not done — the welcome banner component and home-page wiring are not present.
+
 **Depends on:** plan 00 (design system) — recommended so the banner uses the prototype's tokens.
 
 **Design reference:** [`./index.html`](../../../../index.html). Match the prototype's `.headline-strip` styling — dark inked card with lime pill, mono caption, and the playful coral/grape blooms in the body background. The CTAs should use the same brutal button style as everything else.

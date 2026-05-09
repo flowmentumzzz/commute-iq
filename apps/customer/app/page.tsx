@@ -2,6 +2,7 @@ import { mockTransactions, transportComparisons } from "@commute-iq/domain";
 import { Badge } from "@commute-iq/ui/components/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@commute-iq/ui/components/card";
 
+import { AuthStatus } from "../components/auth-status";
 import { MoneyLeakSpotlight } from "../components/money-leak-spotlight";
 import { ThemeToggle } from "../components/theme-toggle";
 import { TrueCostCalculator } from "../components/true-cost-calculator";
@@ -14,21 +15,26 @@ const currency = new Intl.NumberFormat("vi-VN", {
 
 export default function CustomerHomePage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,hsl(var(--accent)),transparent_34%),linear-gradient(135deg,hsl(var(--background)),hsl(var(--secondary)))] px-5 py-6 md:px-10">
+    <main className="min-h-screen bg-background bg-body-bloom px-5 py-7 md:px-10">
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-        <nav className="flex items-center justify-between">
+        <nav className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex size-11 items-center justify-center rounded-2xl bg-primary text-xl text-primary-foreground">
-              CW
+            <div className="flex size-12 -rotate-[4deg] items-center justify-center rounded-[14px] border-2 border-foreground bg-lime text-2xl shadow-brutal-sm">
+              🛵
             </div>
             <div>
-              <p className="font-display text-xl font-bold">Commute Wallet</p>
-              <p className="text-sm text-muted-foreground">Vietnam-first commute finance</p>
+              <p className="font-display text-2xl font-extrabold leading-none tracking-tight">
+                commute<span className="text-coral">.</span>vn
+              </p>
+              <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-ink-soft">
+                {"// thấy tiền đi lại của bạn rõ ràng"}
+              </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Badge variant="secondary">Hackathon MVP</Badge>
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge>Hackathon MVP</Badge>
             <ThemeToggle />
+            <AuthStatus />
           </div>
         </nav>
 
@@ -46,13 +52,17 @@ export default function CustomerHomePage() {
               {mockTransactions.map((transaction) => (
                 <div
                   key={`${transaction.merchant}-${transaction.amountVnd}`}
-                  className="flex items-center justify-between rounded-2xl bg-muted p-4"
+                  className="flex items-center justify-between rounded-2xl border-2 border-foreground bg-paper p-4 shadow-brutal-sm"
                 >
                   <div>
-                    <p className="font-semibold">{transaction.merchant}</p>
-                    <p className="text-sm text-muted-foreground">{transaction.category}</p>
+                    <p className="font-display font-semibold">{transaction.merchant}</p>
+                    <p className="font-mono text-[10px] uppercase tracking-wider text-ink-soft">
+                      {transaction.category}
+                    </p>
                   </div>
-                  <p className="font-semibold">{currency.format(transaction.amountVnd)}</p>
+                  <p className="font-display font-bold tabular-nums">
+                    {currency.format(transaction.amountVnd)}
+                  </p>
                 </div>
               ))}
             </CardContent>
@@ -67,10 +77,15 @@ export default function CustomerHomePage() {
               {transportComparisons.map((item) => (
                 <div
                   key={item.mode}
-                  className="grid grid-cols-[1fr_auto_auto] items-center gap-4 rounded-2xl border border-border p-4"
+                  className="grid grid-cols-[1fr_auto_auto] items-center gap-4 rounded-2xl border-2 border-foreground bg-paper p-4 shadow-brutal-sm"
                 >
-                  <p className="font-semibold">{item.mode}</p>
-                  <p>{currency.format(item.dailyVnd)}/ngày</p>
+                  <p className="font-display font-semibold">{item.mode}</p>
+                  <p className="font-display font-bold tabular-nums">
+                    {currency.format(item.dailyVnd)}
+                    <span className="ml-1 font-mono text-[10px] font-normal uppercase tracking-wider text-ink-soft">
+                      / ngày
+                    </span>
+                  </p>
                   <Badge variant="outline">
                     {item.timeDeltaMinutes > 0 ? `+${item.timeDeltaMinutes}` : item.timeDeltaMinutes} phút
                   </Badge>

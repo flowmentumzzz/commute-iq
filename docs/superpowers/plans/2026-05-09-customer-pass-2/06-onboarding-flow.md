@@ -13,6 +13,8 @@ If your Notion has separate task IDs for O1 (address autocomplete), O2 (map pick
 
 **Branch:** `feat/onboarding-flow` from `main`.
 
+**Status:** Not done — the onboarding route, step components, save-profile action, auth-callback stitch, and tests are not present.
+
 **Depends on:**
 - Plan 00 (design system) — strongly recommended for visual consistency.
 - Plan 01 (auth) — required. The callback in plan 01 needs to know whether the signed-in user has completed onboarding (does a `commute_profiles` row exist for them?). If yes → `/`. If no → `/onboarding`.
