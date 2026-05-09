@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "title": "Commute.vn",
+    "description": "See your commute spending clearly — a finance app for people who actually commute in Vietnam."
+  },
+  "nav": {
+    "main": "Main navigation",
+    "home": "Home",
+    "insights": "Insights",
+    "claims": "Claims",
+    "profile": "Me",
+    "hackathonBadge": "Hackathon MVP",
+    "tagline": "// hello"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "ariaLabel": "Change theme. Current: {label}"
+  },
+  "language": {
+    "label": "Language",
+    "vi": "Tiếng Việt",
+    "en": "English",
+    "ariaLabel": "Change language. Current: {label}"
+  },
+  "auth": {
+    "signInTitle": "Sign in",
+    "signInSubtitle": "Enter your email — we'll send a one-tap sign-in link. No password needed.",
+    "backHome": "← commute.vn",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@company.com",
+    "submit": "Send sign-in link",
+    "submitting": "Sending…",
+    "sent": "Sent",
+    "wait": "Wait {seconds}s",
+    "sentMessage": "Check your email — sign-in link sent.",
+    "cooldownMessage": "Sign-in link just sent. Please wait before requesting another.",
+    "rateLimitMessage": "Too many requests — please wait and try again.",
+    "emailRequired": "Please enter your email.",
+    "emailInvalid": "That email doesn't look right.",
+    "genericError": "Something went wrong. Please try again.",
+    "signOut": "Sign out",
+    "signIn": "Sign in",
+    "signedInBadge": "Signed in"
+  },
+  "welcomeBanner": {
+    "tag": "✨ Hello",
+    "title": "You're viewing sample data",
+    "body": "Drag the bars below to see your real commute costs — or set up your account in 30 seconds so the app learns how you commute.",
+    "cta": "Start setup →",
+    "skip": "Skip, use sample",
+    "close": "Close"
+  },
+  "home": {
+    "greetingMorning": "Good morning",
+    "greetingAfternoon": "Good afternoon",
+    "greetingEvening": "Good evening",
+    "fallbackName": "Friend",
+    "thisMonthLabel": "This month",
+    "thisMonthDelta": "↓ 12% vs last month",
+    "tripsLabel": "Trips taken",
+    "tripsUnit": "trips",
+    "tripsDelta": "avg 26k / trip",
+    "reimburseTitle": "You'll be reimbursed {amount}",
+    "reimburseBody": "Your company has commute support enabled. The app already did the math — just confirm.",
+    "reimburseCta": "Confirm & submit",
+    "todayHeading": "Today",
+    "seeAll": "See all →",
+    "trip1Title": "Home → Office",
+    "trip1Subtitle": "07:42 · 6.3km · auto",
+    "trip1Note": "fuel + parking",
+    "trip2Title": "Highlands · on the way",
+    "trip2Subtitle": "07:55 · CMT8 intersection",
+    "trip2Note": "14× this month",
+    "trip3Title": "Grab home · rainy",
+    "trip3Subtitle": "18:34 · 6.1km",
+    "mockNotice": "Mock data — connect the <playgroundLink>playground</playgroundLink> to see the true-cost calculator."
+  },
+  "moneyLeak": {
+    "badge": "✨ MONEY LEAK",
+    "headlinePattern": "{merchant} · {count}× / month = {amount}",
+    "summary": "{label} is draining your budget every month. {tip}",
+    "savingsLabel": "Possible savings",
+    "averageLabel": "{amount} on average per visit.",
+    "othersHeading": "Other patterns",
+    "otherRowMeta": "{count}× · {label}",
+    "categoryLabels": {
+      "routine": "Coffee / habits",
+      "ride_hailing": "Grab / Be",
+      "parking": "Parking",
+      "fuel": "Fuel",
+      "maintenance": "Maintenance"
+    },
+    "categoryTips": {
+      "routine": "Brewing at home 3 days a week is a clean win.",
+      "ride_hailing": "Ride your motorbike when it's dry; save Grab for heavy rain.",
+      "parking": "A monthly spot near your office is often 30–40% cheaper.",
+      "fuel": "Stick to one station and keep tyre pressure right — saves 5–10%.",
+      "maintenance": "Routine service is cheaper than emergency repairs."
+    }
+  },
+  "insights": {
+    "eyebrow": "Insights",
+    "title": "Where did the money go?",
+    "periodWeek": "Week",
+    "periodMonth": "Month",
+    "period3Months": "3 months",
+    "monthBadge": "May 2026",
+    "comparePrefix": "vs last month · saved {amount}",
+    "byCategoryHeading": "By category",
+    "tipBadge": "🎯 Tip",
+    "tipTitle": "3 days/week on the metro = save <hl>{amount}/month</hl>",
+    "tipBody": "Metro line 1 passes your office. The app simulated this against your 47 logged trips.",
+    "categories": {
+      "fuelParking": "Fuel + parking",
+      "rideHailing": "Grab / Be",
+      "coffee": "Coffee on the way",
+      "transit": "Bus / Metro",
+      "tolls": "Tolls, highways"
+    }
+  },
+  "claims": {
+    "eyebrow": "Claims",
+    "title": "Auto-reimburse",
+    "pendingBadge": "Awaiting your confirmation",
+    "tripsBadge": "{count} trips",
+    "matchedNote": "matched the company policy",
+    "submitting": "Sending…",
+    "submitCta": "✨ Submit {count} trips · one tap",
+    "submittedTitle": "✓ Submitted · pending review",
+    "submittedBody": "Submitted {count} trips — finance will review within 24h.",
+    "submitFail": "Couldn't submit. Please try again.",
+    "networkFail": "Couldn't reach the server.",
+    "eligibleHeading": "Eligible trips",
+    "rows": {
+      "1": { "date": "May 6", "route": "Home → Office", "meta": "07:42 · ✓ geofence match" },
+      "2": { "date": "May 5", "route": "Home → Office", "meta": "07:50 · ✓ geofence match" },
+      "3": { "date": "May 4", "route": "Grab · OT 22:30", "meta": "overtime — late shift policy" },
+      "4": { "date": "May 3", "route": "Home → Office", "meta": "07:48 · ✓ geofence match" },
+      "5": { "date": "May 2", "route": "Home → Office", "meta": "07:55 · ✓ geofence match" }
+    }
+  },
+  "profile": {
+    "eyebrow": "Me",
+    "fallbackTitle": "Profile",
+    "accountCard": "Account",
+    "emailLabel": "Email",
+    "commuteCard": "Commute setup",
+    "homeLabel": "Home",
+    "workLabel": "Office",
+    "transportLabel": "Primary transport",
+    "vehicleLabel": "Motorbike",
+    "noProfile": "You haven't set up your commute yet. Finish the 3 steps so the app understands how you travel.",
+    "editCta": "Edit commute setup",
+    "startCta": "Start setup",
+    "otherCard": "Other",
+    "playgroundCta": "Open True Cost playground →",
+    "buildLine": "commute.vn · hackathon build · v0.1",
+    "transportLabels": {
+      "motorbike": "🛵 Motorbike",
+      "grab_be": "🚖 Grab / Be",
+      "bus": "🚌 Bus / Metro",
+      "bike_walk": "🚲 Bike / Walk"
+    }
+  }
+}

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@commute-iq/ui/components/button";
 import { Card, CardContent } from "@commute-iq/ui/components/card";
 
@@ -10,6 +11,7 @@ const STORAGE_KEY = "commute-iq:welcome-dismissed";
 type Visibility = "checking" | "visible" | "hidden";
 
 export function WelcomeBanner() {
+  const t = useTranslations("welcomeBanner");
   const [visibility, setVisibility] = useState<Visibility>("checking");
 
   useEffect(() => {
@@ -41,28 +43,26 @@ export function WelcomeBanner() {
       <CardContent className="relative flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-6">
         <div className="flex-1">
           <span className="inline-flex items-center gap-2 rounded-full border-2 border-paper/60 bg-paper/10 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider">
-            ✨ Hello
+            {t("tag")}
           </span>
           <h3 className="mt-3 font-display text-xl font-extrabold leading-tight tracking-tight sm:text-2xl">
-            Bạn đang xem dữ liệu mẫu
+            {t("title")}
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-paper/85">
-            Kéo các thanh ở bên dưới để xem chi phí đi lại thật của bạn — hoặc thiết lập tài khoản 30 giây để app hiểu cách bạn đi lại.
-          </p>
+          <p className="mt-2 text-sm leading-relaxed text-paper/85">{t("body")}</p>
         </div>
         <div className="flex flex-wrap gap-3 sm:flex-shrink-0 sm:flex-col">
           <Button asChild variant="default">
             <Link href="/sign-in?next=/onboarding" onClick={dismiss}>
-              Bắt đầu thiết lập →
+              {t("cta")}
             </Link>
           </Button>
           <Button variant="secondary" onClick={dismiss}>
-            Bỏ qua, dùng mẫu
+            {t("skip")}
           </Button>
         </div>
         <button
           type="button"
-          aria-label="Đóng"
+          aria-label={t("close")}
           onClick={dismiss}
           className="absolute right-3 top-3 grid size-7 place-items-center rounded-full border-2 border-paper/60 bg-paper/10 text-xs font-bold text-paper transition hover:bg-paper/20"
         >

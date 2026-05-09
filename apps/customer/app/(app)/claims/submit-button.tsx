@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@commute-iq/ui/components/button";
 
 interface ClaimSubmitButtonProps {
@@ -10,6 +11,7 @@ interface ClaimSubmitButtonProps {
 type Status = "idle" | "submitting" | "submitted" | "error";
 
 export function ClaimSubmitButton({ totalCount }: ClaimSubmitButtonProps) {
+  const t = useTranslations("claims");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string | null>(null);
 
@@ -26,22 +28,22 @@ export function ClaimSubmitButton({ totalCount }: ClaimSubmitButtonProps) {
 
       if (!response.ok) {
         setStatus("error");
-        setMessage("Không gửi được. Vui lòng thử lại.");
+        setMessage(t("submitFail"));
         return;
       }
 
       setStatus("submitted");
-      setMessage(`Đã gửi ${totalCount} chuyến — bộ phận tài chính sẽ duyệt trong 24h.`);
+      setMessage(t("submittedBody", { count: totalCount }));
     } catch {
       setStatus("error");
-      setMessage("Không kết nối được server.");
+      setMessage(t("networkFail"));
     }
   }
 
   if (status === "submitted") {
     return (
       <div className="rounded-2xl border-2 border-foreground bg-leaf p-4 text-paper shadow-brutal-sm">
-        <p className="font-display font-bold">✓ Đã gửi · chờ duyệt</p>
+        <p className="font-display font-bold">{t("submittedTitle")}</p>
         {message && <p className="mt-1 text-sm opacity-90">{message}</p>}
       </div>
     );
@@ -50,7 +52,7 @@ export function ClaimSubmitButton({ totalCount }: ClaimSubmitButtonProps) {
   return (
     <div className="flex flex-col gap-2">
       <Button variant="destructive" onClick={submit} disabled={status === "submitting"}>
-        {status === "submitting" ? "Đang gửi…" : `✨ Gửi ${totalCount} chuyến · 1 chạm`}
+        {status === "submitting" ? t("submitting") : t("submitCta", { count: totalCount })}
       </Button>
       {message && status === "error" && (
         <p role="alert" className="font-mono text-[10px] uppercase tracking-wider text-coral">

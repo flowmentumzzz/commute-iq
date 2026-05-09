@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Button } from "@commute-iq/ui/components/button";
 
 import { createServerSupabaseClient } from "../lib/supabase/server";
 
 export async function AuthStatus() {
+  const t = await getTranslations("auth");
   let email: string | null = null;
 
   try {
@@ -19,7 +21,7 @@ export async function AuthStatus() {
   if (!email) {
     return (
       <Button asChild size="sm" variant="default">
-        <Link href="/sign-in">Đăng nhập</Link>
+        <Link href="/sign-in">{t("signIn")}</Link>
       </Button>
     );
   }
@@ -34,7 +36,7 @@ export async function AuthStatus() {
       </span>
       <form action="/auth/sign-out" method="POST">
         <Button type="submit" size="sm" variant="secondary">
-          Đăng xuất
+          {t("signOut")}
         </Button>
       </form>
     </div>

@@ -2,26 +2,28 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface Tab {
   href: string;
   emoji: string;
-  label: string;
+  key: "home" | "insights" | "claims" | "profile";
 }
 
 const TABS: Tab[] = [
-  { href: "/", emoji: "🏠", label: "Trang chủ" },
-  { href: "/insights", emoji: "📊", label: "Thấu hiểu" },
-  { href: "/claims", emoji: "💼", label: "Hoàn phí" },
-  { href: "/profile", emoji: "👤", label: "Tôi" }
+  { href: "/", emoji: "🏠", key: "home" },
+  { href: "/insights", emoji: "📊", key: "insights" },
+  { href: "/claims", emoji: "💼", key: "claims" },
+  { href: "/profile", emoji: "👤", key: "profile" }
 ];
 
 export function TabBar() {
   const pathname = usePathname();
+  const t = useTranslations("nav");
 
   return (
     <nav
-      aria-label="Điều hướng chính"
+      aria-label={t("main")}
       className="fixed inset-x-0 bottom-0 z-30 mx-auto flex max-w-3xl items-stretch justify-around border-t-2 border-foreground bg-paper px-3 py-2 lg:relative lg:mt-6 lg:max-w-5xl lg:rounded-full lg:border-2 lg:bg-paper lg:px-2 lg:shadow-brutal-sm"
     >
       {TABS.map((tab) => {
@@ -46,7 +48,7 @@ export function TabBar() {
                 active ? "text-foreground" : "text-ink-soft"
               }`}
             >
-              {tab.label}
+              {t(tab.key)}
             </span>
           </Link>
         );

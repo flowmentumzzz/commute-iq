@@ -1,13 +1,16 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Badge } from "@commute-iq/ui/components/badge";
 
+import { LanguageSwitcher } from "../../components/language-switcher";
 import { ThemeToggle } from "../../components/theme-toggle";
 
 interface TopbarProps {
   email: string | null;
 }
 
-export function Topbar({ email }: TopbarProps) {
+export async function Topbar({ email }: TopbarProps) {
+  const t = await getTranslations("nav");
   return (
     <header className="mx-auto flex w-full max-w-3xl flex-wrap items-center justify-between gap-3 px-4 pt-6 sm:px-6 lg:max-w-5xl">
       <Link href="/" className="flex items-center gap-3">
@@ -19,14 +22,15 @@ export function Topbar({ email }: TopbarProps) {
             commute<span className="text-coral">.</span>vn
           </p>
           <p className="mt-1 font-mono text-[10px] uppercase tracking-widest text-ink-soft">
-            {"// hello"}
+            {t("tagline")}
           </p>
         </div>
       </Link>
       <div className="flex flex-wrap items-center gap-3">
         <Badge variant="secondary" className="hidden sm:inline-flex">
-          Hackathon MVP
+          {t("hackathonBadge")}
         </Badge>
+        <LanguageSwitcher />
         <ThemeToggle />
         {email && (
           <span

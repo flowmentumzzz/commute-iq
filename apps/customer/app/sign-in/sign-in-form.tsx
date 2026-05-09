@@ -1,16 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { z } from "zod";
 import { Button } from "@commute-iq/ui/components/button";
 
 import { createBrowserSupabaseClient } from "../../lib/supabase/browser";
-
-const emailSchema = z
-  .string({ required_error: "Vui lòng nhập email." })
-  .trim()
-  .toLowerCase()
-  .email("Email chưa đúng định dạng.");
 
 type Status = "idle" | "submitting" | "sent" | "error" | "cooldown";
 
@@ -41,11 +36,22 @@ function writeCooldown(email: string): void {
 }
 
 export function SignInForm({ next }: SignInFormProps) {
+  const t = useTranslations("auth");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const inFlightRef = useRef(false);
+
+  const emailSchema = useMemo(
+    () =>
+      z
+        .string({ required_error: t("emailRequired") })
+        .trim()
+        .toLowerCase()
+        .email(t("emailInvalid")),
+    [t]
+  );
 
   const supabase = useMemo(() => createBrowserSupabaseClient(), []);
 
@@ -69,11 +75,7 @@ export function SignInForm({ next }: SignInFormProps) {
     writeCooldown(emailValue);
     setSecondsLeft(Math.ceil(COOLDOWN_MS / 1000));
     setStatus("cooldown");
-    setMessage(
-      fromServer
-        ? "Đã gửi quá nhiều yêu cầu. Vui lòng đợi rồi thử lại."
-        : "Link đăng nhập vừa được gửi. Vui lòng đợi trước khi gửi lại."
-    );
+    setMessage(fromServer ? t("rateLimitMessage") : t("cooldownMessage"));
   }
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -84,7 +86,7 @@ export function SignInForm({ next }: SignInFormProps) {
     const parsed = emailSchema.safeParse(email);
     if (!parsed.success) {
       setStatus("error");
-      setMessage(parsed.error.issues[0]?.message ?? "Email chưa hợp lệ.");
+      setMessage(parsed.error.issues[0]?.message ?? t("emailInvalid"));
       return;
     }
 
@@ -93,7 +95,7 @@ export function SignInForm({ next }: SignInFormProps) {
       const remaining = Math.ceil((cooldownEnd - Date.now()) / 1000);
       setSecondsLeft(remaining);
       setStatus("cooldown");
-      setMessage("Link đăng nhập vừa được gửi. Vui lòng đợi trước khi gửi lại.");
+      setMessage(t("cooldownMessage"));
       return;
     }
 
@@ -122,10 +124,10 @@ export function SignInForm({ next }: SignInFormProps) {
 
       writeCooldown(parsed.data);
       setStatus("sent");
-      setMessage("Kiểm tra email — link đăng nhập đã được gửi.");
+      setMessage(t("sentMessage"));
     } catch (error: unknown) {
       setStatus("error");
-      setMessage(getErrorMessage(error));
+      setMessage(getErrorMessage(error, t("genericError")));
     } finally {
       inFlightRef.current = false;
     }
@@ -136,7 +138,7 @@ export function SignInForm({ next }: SignInFormProps) {
   return (
     <form className="flex flex-col gap-4" onSubmit={onSubmit}>
       <label className="flex flex-col gap-2">
-        <span className="font-display text-sm font-semibold">Email</span>
+        <span className="font-display text-sm font-semibold">{t("emailLabel")}</span>
         <input
           type="email"
           autoComplete="email"
@@ -144,19 +146,19 @@ export function SignInForm({ next }: SignInFormProps) {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           disabled={status === "submitting" || status === "sent"}
-          placeholder="ban@congty.vn"
+          placeholder={t("emailPlaceholder")}
           className="h-11 rounded-xl border-2 border-foreground bg-paper px-3 text-sm font-medium shadow-brutal-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-60"
         />
       </label>
 
       <Button type="submit" disabled={isLocked}>
         {status === "submitting"
-          ? "Đang gửi…"
+          ? t("submitting")
           : status === "sent"
-            ? "Đã gửi"
+            ? t("sent")
             : status === "cooldown"
-              ? `Đợi ${secondsLeft}s`
-              : "Gửi link đăng nhập"}
+              ? t("wait", { seconds: secondsLeft })
+              : t("submit")}
       </Button>
 
       {message && (
@@ -173,7 +175,7 @@ export function SignInForm({ next }: SignInFormProps) {
   );
 }
 
-function getErrorMessage(error: unknown): string {
+function getErrorMessage(error: unknown, fallback: string): string {
   if (error instanceof Error) return error.message;
-  return "Có lỗi xảy ra. Vui lòng thử lại.";
+  return fallback;
 }

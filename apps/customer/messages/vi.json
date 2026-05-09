@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "title": "Commute.vn",
+    "description": "Thấy tiền đi lại của bạn rõ ràng — app tài chính cho người Việt thực sự đi lại."
+  },
+  "nav": {
+    "main": "Điều hướng chính",
+    "home": "Trang chủ",
+    "insights": "Thấu hiểu",
+    "claims": "Hoàn phí",
+    "profile": "Tôi",
+    "hackathonBadge": "Hackathon MVP",
+    "tagline": "// hello"
+  },
+  "theme": {
+    "light": "Sáng",
+    "dark": "Tối",
+    "system": "Theo hệ thống",
+    "ariaLabel": "Đổi giao diện. Hiện tại: {label}"
+  },
+  "language": {
+    "label": "Ngôn ngữ",
+    "vi": "Tiếng Việt",
+    "en": "English",
+    "ariaLabel": "Đổi ngôn ngữ. Hiện tại: {label}"
+  },
+  "auth": {
+    "signInTitle": "Đăng nhập",
+    "signInSubtitle": "Nhập email — chúng tôi gửi link đăng nhập 1 chạm. Không cần mật khẩu.",
+    "backHome": "← commute.vn",
+    "emailLabel": "Email",
+    "emailPlaceholder": "ban@congty.vn",
+    "submit": "Gửi link đăng nhập",
+    "submitting": "Đang gửi…",
+    "sent": "Đã gửi",
+    "wait": "Đợi {seconds}s",
+    "sentMessage": "Kiểm tra email — link đăng nhập đã được gửi.",
+    "cooldownMessage": "Link đăng nhập vừa được gửi. Vui lòng đợi trước khi gửi lại.",
+    "rateLimitMessage": "Đã gửi quá nhiều yêu cầu. Vui lòng đợi rồi thử lại.",
+    "emailRequired": "Vui lòng nhập email.",
+    "emailInvalid": "Email chưa đúng định dạng.",
+    "genericError": "Có lỗi xảy ra. Vui lòng thử lại.",
+    "signOut": "Đăng xuất",
+    "signIn": "Đăng nhập",
+    "signedInBadge": "Đã đăng nhập"
+  },
+  "welcomeBanner": {
+    "tag": "✨ Hello",
+    "title": "Bạn đang xem dữ liệu mẫu",
+    "body": "Kéo các thanh ở bên dưới để xem chi phí đi lại thật của bạn — hoặc thiết lập tài khoản 30 giây để app hiểu cách bạn đi lại.",
+    "cta": "Bắt đầu thiết lập →",
+    "skip": "Bỏ qua, dùng mẫu",
+    "close": "Đóng"
+  },
+  "home": {
+    "greetingMorning": "Chào buổi sáng",
+    "greetingAfternoon": "Chào buổi chiều",
+    "greetingEvening": "Chào buổi tối",
+    "fallbackName": "Bạn",
+    "thisMonthLabel": "Tháng này",
+    "thisMonthDelta": "↓ 12% vs tháng trước",
+    "tripsLabel": "Đã đi",
+    "tripsUnit": "chuyến",
+    "tripsDelta": "trung bình 26k/chuyến",
+    "reimburseTitle": "Bạn được hoàn {amount}",
+    "reimburseBody": "Công ty bạn đã bật chính sách hỗ trợ đi lại. App đã tính sẵn — chỉ cần xác nhận.",
+    "reimburseCta": "Xác nhận & gửi 1 chạm",
+    "todayHeading": "Hôm nay",
+    "seeAll": "Xem tất cả →",
+    "trip1Title": "Nhà → Văn phòng",
+    "trip1Subtitle": "07:42 · 6.3km · auto",
+    "trip1Note": "xăng + gửi",
+    "trip2Title": "Highlands · trên đường",
+    "trip2Subtitle": "07:55 · ngã tư CMT8",
+    "trip2Note": "lần 14 / tháng",
+    "trip3Title": "Grab về nhà · trời mưa",
+    "trip3Subtitle": "18:34 · 6.1km",
+    "mockNotice": "Mock data — kết nối <playgroundLink>playground</playgroundLink> để xem true-cost calculator."
+  },
+  "moneyLeak": {
+    "badge": "✨ MONEY LEAK",
+    "headlinePattern": "{merchant} · {count} lần / tháng = {amount}",
+    "summary": "{label} đang ngốn ngân sách mỗi tháng. {tip}",
+    "savingsLabel": "Tiết kiệm khả thi",
+    "averageLabel": "Trung bình {amount} mỗi lần.",
+    "othersHeading": "Các pattern khác",
+    "otherRowMeta": "{count} lần · {label}",
+    "categoryLabels": {
+      "routine": "Cà phê / thói quen",
+      "ride_hailing": "Grab / Be",
+      "parking": "Gửi xe",
+      "fuel": "Xăng",
+      "maintenance": "Bảo dưỡng"
+    },
+    "categoryTips": {
+      "routine": "Tự pha ở nhà 3 ngày/tuần là một vé tiết kiệm rõ ràng.",
+      "ride_hailing": "Đi xe máy khi không mưa và để Grab cho ngày mưa lớn.",
+      "parking": "Tìm chỗ gửi xe tháng cố định gần văn phòng có thể rẻ hơn 30–40%.",
+      "fuel": "Đổ tại cây xăng quen, giữ áp suất lốp đúng để tiết kiệm 5–10%.",
+      "maintenance": "Bảo dưỡng định kỳ tránh được hỏng hóc đột xuất tốn kém hơn."
+    }
+  },
+  "insights": {
+    "eyebrow": "Thấu hiểu",
+    "title": "Tiền đi đâu?",
+    "periodWeek": "Tuần",
+    "periodMonth": "Tháng",
+    "period3Months": "3 tháng",
+    "monthBadge": "Tháng 5 / 2026",
+    "comparePrefix": "so với tháng trước · tiết kiệm {amount}",
+    "byCategoryHeading": "Theo loại chi",
+    "tipBadge": "🎯 Gợi ý",
+    "tipTitle": "3 ngày/tuần đi metro = tiết kiệm <hl>{amount}/tháng</hl>",
+    "tipBody": "Tuyến metro số 1 đi qua công ty bạn. App đã thử với 47 chuyến đã ghi.",
+    "categories": {
+      "fuelParking": "Xăng + gửi xe",
+      "rideHailing": "Grab / Be",
+      "coffee": "Cà phê dọc đường",
+      "transit": "Buýt / Metro",
+      "tolls": "Cầu, cao tốc"
+    }
+  },
+  "claims": {
+    "eyebrow": "Hoàn phí",
+    "title": "Tự động nhận lại",
+    "pendingBadge": "Đang chờ xác nhận",
+    "tripsBadge": "{count} chuyến",
+    "matchedNote": "đã khớp chính sách công ty",
+    "submitting": "Đang gửi…",
+    "submitCta": "✨ Gửi {count} chuyến · 1 chạm",
+    "submittedTitle": "✓ Đã gửi · chờ duyệt",
+    "submittedBody": "Đã gửi {count} chuyến — bộ phận tài chính sẽ duyệt trong 24h.",
+    "submitFail": "Không gửi được. Vui lòng thử lại.",
+    "networkFail": "Không kết nối được server.",
+    "eligibleHeading": "Chuyến đủ điều kiện",
+    "rows": {
+      "1": { "date": "06/05", "route": "Nhà → Văn phòng", "meta": "07:42 · ✓ khớp geofence" },
+      "2": { "date": "05/05", "route": "Nhà → Văn phòng", "meta": "07:50 · ✓ khớp geofence" },
+      "3": { "date": "04/05", "route": "Grab · OT 22:30", "meta": "ca tăng — chính sách trễ" },
+      "4": { "date": "03/05", "route": "Nhà → Văn phòng", "meta": "07:48 · ✓ khớp geofence" },
+      "5": { "date": "02/05", "route": "Nhà → Văn phòng", "meta": "07:55 · ✓ khớp geofence" }
+    }
+  },
+  "profile": {
+    "eyebrow": "Tôi",
+    "fallbackTitle": "Profile",
+    "accountCard": "Tài khoản",
+    "emailLabel": "Email",
+    "commuteCard": "Thiết lập đi lại",
+    "homeLabel": "Nhà",
+    "workLabel": "Văn phòng",
+    "transportLabel": "Phương tiện chính",
+    "vehicleLabel": "Xe máy",
+    "noProfile": "Bạn chưa thiết lập thông tin đi lại. Hoàn tất 3 bước để app hiểu cách bạn đi.",
+    "editCta": "Sửa thiết lập đi lại",
+    "startCta": "Bắt đầu thiết lập",
+    "otherCard": "Khác",
+    "playgroundCta": "Mở True Cost playground →",
+    "buildLine": "commute.vn · hackathon build · v0.1",
+    "transportLabels": {
+      "motorbike": "🛵 Xe máy",
+      "grab_be": "🚖 Grab / Be",
+      "bus": "🚌 Buýt / Metro",
+      "bike_walk": "🚲 Xe đạp / Đi bộ"
+    }
+  }
+}
