@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL("/sign-in", url.origin));
   }
 
-  await supabase
+  const { error: upsertError } = await supabase
     .from("profiles")
     .upsert(
       {
@@ -37,6 +37,12 @@ export async function GET(request: NextRequest) {
       },
       { onConflict: "id" }
     );
+
+  if (upsertError) {
+    return NextResponse.redirect(
+      new URL(`/sign-in?error=${encodeURIComponent(upsertError.message)}`, url.origin)
+    );
+  }
 
   const { data: commuteProfile } = await supabase
     .from("commute_profiles")
