@@ -39,12 +39,12 @@ So "sign-up" is plan 01, "onboarding" is plan 06, and the **stitch** between the
 | --- | --- | --- | --- | --- | --- | --- |
 | 00 | [design-system-from-prototype.md](./00-design-system-from-prototype.md) | ✅ Done | (design) | packages/ui + apps/customer | 1d | — |
 | 01 | [auth-magic-link.md](./01-auth-magic-link.md) | ✅ Done | A1, A3 | apps/customer | 1d | 00 (recommended) |
-| 02 | [backend-calc-integration.md](./02-backend-calc-integration.md) | ⬜ Not started | (user request) | apps/customer + apps/api | 0.5d | 00 (recommended) |
+| 02 | [backend-calc-integration.md](./02-backend-calc-integration.md) | ✅ Done | (user request) | apps/customer + apps/api | 0.5d | 00 (recommended) |
 | 03 | [motorbike-picker-expand.md](./03-motorbike-picker-expand.md) | ✅ Done | O4 | packages/domain | 0.5d | — |
-| 04 | [manual-trip-entry.md](./04-manual-trip-entry.md) | ⬜ Not started | T1, T2 | apps/customer + packages/domain | 1d | 00 (style), 01 (Supabase persistence) |
-| 05 | [skip-and-defaults.md](./05-skip-and-defaults.md) | ⬜ Not started | O7 | apps/customer | 0.5d | 00 (style) |
-| 06 | [onboarding-flow.md](./06-onboarding-flow.md) | ⬜ Not started | O8 (and O7 deep-link) | apps/customer | 1.5d | 00 (style), 01 (auth + callback redirect) |
-| 07 | [app-shell-tabs.md](./07-app-shell-tabs.md) | ⬜ Not started | (new) | apps/customer | 2d | 00, 01, 06 (recommended) |
+| 04 | [manual-trip-entry.md](./04-manual-trip-entry.md) | ✅ Done | T1, T2 | apps/customer + packages/domain | 1d | 00 (style), 01 (Supabase persistence) |
+| 05 | [skip-and-defaults.md](./05-skip-and-defaults.md) | ✅ Done | O7 | apps/customer | 0.5d | 00 (style) |
+| 06 | [onboarding-flow.md](./06-onboarding-flow.md) | ✅ Done | O8 (and O7 deep-link) | apps/customer | 1.5d | 00 (style), 01 (auth + callback redirect) |
+| 07 | [app-shell-tabs.md](./07-app-shell-tabs.md) | ✅ Done | (new) | apps/customer | 2d | 00, 01, 06 (recommended) |
 | 08 | [manager-dashboard.md](./08-manager-dashboard.md) | ✅ Done | (new) | apps/crm + packages/domain | 1.5d | 00 |
 
 Status legend: ✅ Done = committed on `feat/customer-pass-2` · 🟡 In progress = local but not yet committed · ⬜ Not started.
