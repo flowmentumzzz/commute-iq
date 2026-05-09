@@ -9,7 +9,7 @@
     "insights": "Thấu hiểu",
     "claims": "Hoàn phí",
     "profile": "Tôi",
-    "hackathonBadge": "Hackathon MVP",
+    "previewBadge": "Bản xem trước",
     "tagline": "// hello"
   },
   "theme": {
@@ -40,6 +40,8 @@
     "emailRequired": "Vui lòng nhập email.",
     "emailInvalid": "Email chưa đúng định dạng.",
     "genericError": "Có lỗi xảy ra. Vui lòng thử lại.",
+    "sendFailGeneric": "Không gửi được link. Vui lòng thử lại.",
+    "sentMessageResend": "Đã gửi link đăng nhập (qua kênh dự phòng). Kiểm tra email.",
     "signOut": "Đăng xuất",
     "signIn": "Đăng nhập",
     "signedInBadge": "Đã đăng nhập"
@@ -87,7 +89,7 @@
     "otherRowMeta": "{count} lần · {label}",
     "categoryLabels": {
       "routine": "Cà phê / thói quen",
-      "ride_hailing": "Grab / Be",
+      "ride_hailing": "Xe công nghệ",
       "parking": "Gửi xe",
       "fuel": "Xăng",
       "maintenance": "Bảo dưỡng"
@@ -114,7 +116,7 @@
     "tipBody": "Tuyến metro số 1 đi qua công ty bạn. App đã thử với 47 chuyến đã ghi.",
     "categories": {
       "fuelParking": "Xăng + gửi xe",
-      "rideHailing": "Grab / Be",
+      "rideHailing": "Xe công nghệ",
       "coffee": "Cà phê dọc đường",
       "transit": "Buýt / Metro",
       "tolls": "Cầu, cao tốc"
@@ -156,10 +158,10 @@
     "startCta": "Bắt đầu thiết lập",
     "otherCard": "Khác",
     "playgroundCta": "Mở True Cost playground →",
-    "buildLine": "commute.vn · hackathon build · v0.1",
+    "buildLine": "commute.vn · v0.1",
     "transportLabels": {
       "motorbike": "🛵 Xe máy",
-      "grab_be": "🚖 Grab / Be",
+      "grab_be": "🚖 Xe công nghệ",
       "bus": "🚌 Buýt / Metro",
       "bike_walk": "🚲 Xe đạp / Đi bộ"
     }

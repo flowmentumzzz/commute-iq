@@ -28,7 +28,7 @@ export async function Topbar({ email }: TopbarProps) {
       </Link>
       <div className="flex flex-wrap items-center gap-3">
         <Badge variant="secondary" className="hidden sm:inline-flex">
-          {t("hackathonBadge")}
+          {t("previewBadge")}
         </Badge>
         <LanguageSwitcher />
         <ThemeToggle />

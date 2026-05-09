@@ -5,8 +5,6 @@ import { useTranslations } from "next-intl";
 import { z } from "zod";
 import { Button } from "@commute-iq/ui/components/button";
 
-import { createBrowserSupabaseClient } from "../../lib/supabase/browser";
-
 type Status = "idle" | "submitting" | "sent" | "error" | "cooldown";
 
 interface SignInFormProps {
@@ -52,8 +50,6 @@ export function SignInForm({ next }: SignInFormProps) {
         .email(t("emailInvalid")),
     [t]
   );
-
-  const supabase = useMemo(() => createBrowserSupabaseClient(), []);
 
   useEffect(() => {
     if (status !== "cooldown") return;
@@ -104,27 +100,29 @@ export function SignInForm({ next }: SignInFormProps) {
     setMessage(null);
 
     try {
-      const callback = new URL("/auth/callback", window.location.origin);
-      callback.searchParams.set("next", next);
-
-      const { error } = await supabase.auth.signInWithOtp({
-        email: parsed.data,
-        options: { emailRedirectTo: callback.toString() }
+      const response = await fetch("/api/auth/magic-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: parsed.data, next })
       });
 
-      if (error) {
-        if (error.status === 429) {
+      const body = (await response.json().catch(() => null)) as
+        | { ok?: boolean; channel?: "supabase" | "resend"; error?: string }
+        | null;
+
+      if (!response.ok || !body?.ok) {
+        if (response.status === 429) {
           startCooldown(parsed.data, true);
           return;
         }
         setStatus("error");
-        setMessage(error.message);
+        setMessage(body?.error ?? t("sendFailGeneric"));
         return;
       }
 
       writeCooldown(parsed.data);
       setStatus("sent");
-      setMessage(t("sentMessage"));
+      setMessage(body.channel === "resend" ? t("sentMessageResend") : t("sentMessage"));
     } catch (error: unknown) {
       setStatus("error");
       setMessage(getErrorMessage(error, t("genericError")));

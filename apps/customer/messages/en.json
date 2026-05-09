@@ -9,7 +9,7 @@
     "insights": "Insights",
     "claims": "Claims",
     "profile": "Me",
-    "hackathonBadge": "Hackathon MVP",
+    "previewBadge": "Preview",
     "tagline": "// hello"
   },
   "theme": {
@@ -40,6 +40,8 @@
     "emailRequired": "Please enter your email.",
     "emailInvalid": "That email doesn't look right.",
     "genericError": "Something went wrong. Please try again.",
+    "sendFailGeneric": "Couldn't send the link. Please try again.",
+    "sentMessageResend": "Sign-in link sent (via fallback channel). Check your email.",
     "signOut": "Sign out",
     "signIn": "Sign in",
     "signedInBadge": "Signed in"
@@ -87,7 +89,7 @@
     "otherRowMeta": "{count}× · {label}",
     "categoryLabels": {
       "routine": "Coffee / habits",
-      "ride_hailing": "Grab / Be",
+      "ride_hailing": "Ride-hailing",
       "parking": "Parking",
       "fuel": "Fuel",
       "maintenance": "Maintenance"
@@ -114,7 +116,7 @@
     "tipBody": "Metro line 1 passes your office. The app simulated this against your 47 logged trips.",
     "categories": {
       "fuelParking": "Fuel + parking",
-      "rideHailing": "Grab / Be",
+      "rideHailing": "Ride-hailing",
       "coffee": "Coffee on the way",
       "transit": "Bus / Metro",
       "tolls": "Tolls, highways"
@@ -156,10 +158,10 @@
     "startCta": "Start setup",
     "otherCard": "Other",
     "playgroundCta": "Open True Cost playground →",
-    "buildLine": "commute.vn · hackathon build · v0.1",
+    "buildLine": "commute.vn · v0.1",
     "transportLabels": {
       "motorbike": "🛵 Motorbike",
-      "grab_be": "🚖 Grab / Be",
+      "grab_be": "🚖 Ride-hailing",
       "bus": "🚌 Bus / Metro",
       "bike_walk": "🚲 Bike / Walk"
     }

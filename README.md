@@ -1,6 +1,6 @@
 # Commute Wallet for Vietnam
 
-Commute Wallet is a Vietnam-first commute finance product. The MVP makes invisible monthly commute spend visible by combining motorbike costs, parking, ride-hailing, rain-driven surge behavior, and routine purchases into one true monthly cost.
+Commute Wallet is a Vietnam-first commute finance product. It makes invisible monthly commute spend visible by combining motorbike costs, parking, ride-hailing, rain-driven surge behavior, and routine purchases into one true monthly cost.
 
 This repo is the foundation monorepo for two UI platforms and one backend:
 
