@@ -1,6 +1,6 @@
 const MONTHS_PER_YEAR = 12;
 
-import type { TrueCostInput, TrueCostResult } from "./types";
+import type { TrueCostInput, TrueCostResult } from "./types.js";
 
 export function calculateTrueCost(input: TrueCostInput): TrueCostResult {
   const directMonthlyVnd =

@@ -1,4 +1,4 @@
-import type { CommuteTransaction, TrueCostInput } from "./types";
+import type { CommuteTransaction, TrueCostInput } from "./types.js";
 
 export const motorbikeModels = [
   {

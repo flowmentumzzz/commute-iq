@@ -1,4 +1,4 @@
-import type { CommuteCategory, CommuteTransaction } from "./types";
+import type { CommuteCategory, CommuteTransaction } from "./types.js";
 
 type MerchantRule = {
   pattern: RegExp;
