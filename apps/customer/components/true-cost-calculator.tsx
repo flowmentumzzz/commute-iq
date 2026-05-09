@@ -33,7 +33,7 @@ interface CalculatorState {
 }
 
 const DEFAULT_STATE: CalculatorState = {
-  motorbikeId: motorbikeModels[1]?.id ?? motorbikeModels[0].id,
+  motorbikeId: motorbikeModels.find((m) => m.id === "honda-vision")?.id ?? motorbikeModels[0].id,
   monthlyKm: 280,
   rainyDays: 14,
   coffeeStopsPerWeek: 3,
