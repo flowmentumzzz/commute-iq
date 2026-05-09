@@ -106,7 +106,11 @@ Reference: <https://supabase.com/docs/guides/auth/server-side/nextjs#create-a-mi
 - [ ] Read `code` from `request.nextUrl.searchParams`.
 - [ ] Call `supabase.auth.exchangeCodeForSession(code)`.
 - [ ] After session is set, fetch the user; upsert a `profiles` row with `id = user.id` and `full_name = user.user_metadata.full_name ?? null`. Use `.upsert(..., { onConflict: 'id' })` so re-sign-in is idempotent.
-- [ ] Redirect to `/` (or to a `next` query param if present, sanitized to same-origin paths).
+- [ ] **Decide the destination based on onboarding state:**
+  - Read `commute_profiles` for the user.
+  - **No row** → user is new → redirect to `/onboarding` (plan 06 builds this).
+  - **Row exists** → existing user → redirect to `/` (or to a sanitized `next` query param if present).
+- [ ] If plan 06 has not landed yet, send everyone to `/`. The plan-06 PR will swap the redirect.
 
 ## Task 6 · Sign-out route
 

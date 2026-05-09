@@ -1,6 +1,6 @@
 # Customer Pass 2 — Task Breakdown
 
-This folder contains six self-contained implementation plans that take the customer app from the live calculator (PR #1) to a real signed-in product surface backed by the NestJS API and Supabase — and styled to match the prototype.
+This folder contains seven self-contained implementation plans that take the customer app from the live calculator (PR #1) to a real signed-in product surface — with sign-up via magic link, a proper multi-step onboarding flow, NestJS API integration, and Supabase persistence — all styled to match the prototype.
 
 Each plan is meant to be picked up by a separate Claude Code session.
 
@@ -15,7 +15,23 @@ The prototype defines:
 - **Style:** neo-brutalist — `2.5px solid var(--ink)` borders, hard offset shadows (`4px 4px 0 0 ink`, no blur), generous border-radius.
 - **Screens:** welcome, setup-loc, setup-mode, home, insights, claims (employee phone view) + manager dashboard with claims table, leak patterns, heatmap, and the "Why us" panel.
 
-Plan **00** ports these tokens + component styling into `packages/ui` so plans 01–05 inherit them automatically.
+Plan **00** ports these tokens + component styling into `packages/ui` so plans 01–06 inherit them automatically.
+
+## Sign-up vs. onboarding — what's where
+
+The product has **two distinct flows** that touch new users, and they are intentionally separated:
+
+| Flow | What it does | Plan |
+| --- | --- | --- |
+| **Sign-up / sign-in** (auth) | Email magic-link via Supabase. With magic-link, sign-up = sign-in for the auth layer — first-time email creates the account; returning email logs in. | **01** |
+| **Onboarding** | The 3-step setup the prototype shows (welcome → home/office locations → transport mode → review) that captures the user's commute profile. | **06** |
+
+The plan-01 auth callback decides where the user lands after the magic link:
+
+- **New user** (no `commute_profiles` row yet) → `/onboarding`
+- **Returning user** (profile exists) → `/`
+
+So "sign-up" is plan 01, "onboarding" is plan 06, and the **stitch** between them lives in plan 01's `/auth/callback` route handler. Plan 06 documents the same stitch from the onboarding side so either session can land first.
 
 ## Plans
 
@@ -27,21 +43,22 @@ Plan **00** ports these tokens + component styling into `packages/ui` so plans 0
 | 03 | [motorbike-picker-expand.md](./03-motorbike-picker-expand.md) | O4 | packages/domain | 0.5d | — |
 | 04 | [manual-trip-entry.md](./04-manual-trip-entry.md) | T1, T2 | apps/customer + packages/domain | 1d | 00 (style), 01 (Supabase persistence) |
 | 05 | [skip-and-defaults.md](./05-skip-and-defaults.md) | O7 | apps/customer | 0.5d | 00 (style) |
+| 06 | [onboarding-flow.md](./06-onboarding-flow.md) | O8 (and O7 deep-link) | apps/customer | 1.5d | 00 (style), 01 (auth + callback redirect) |
 
 ## Suggested order
 
 ```
-00 (design) ──┬── 01 (auth) ──┐
-              │               ├── 04 (trip entry)
-              │   02 (api) ───┘
-              │
-              ├── 05 (welcome banner)
-              └── ...
+00 (design) ──┬── 01 (auth) ──┬── 06 (onboarding) ──┐
+              │               └─────── 04 (trip entry) ─┘
+              │   02 (api) ───────────────────────────┐
+              │                                        │
+              ├── 05 (welcome banner)                  ├── ship
+              └─────────────────────────────────────────┘
 
 03 (motorbike data) — fully independent, run any time
 ```
 
-Concretely: ship **00 first**, then 01 / 02 / 03 / 05 in parallel, then 04.
+Concretely: ship **00 first**, then 01 / 02 / 03 / 05 in parallel, then 06 once 01 is in (06's auth-callback redirect is documented in plan 01 so it can land before 06 with a benign default that sends everyone to `/`), then 04.
 
 If a session can't do 00 first (timing, dependencies blocked), it should still write components that **use the prototype tokens by name** (e.g., `bg-lime`, `font-display`) so a later 00 pass can land cleanly.
 
