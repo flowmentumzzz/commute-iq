@@ -2,6 +2,7 @@ import { mockTransactions, transportComparisons } from "@commute-iq/domain";
 import { Badge } from "@commute-iq/ui/components/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@commute-iq/ui/components/card";
 
+import { AuthStatus } from "../components/auth-status";
 import { MoneyLeakSpotlight } from "../components/money-leak-spotlight";
 import { ThemeToggle } from "../components/theme-toggle";
 import { TrueCostCalculator } from "../components/true-cost-calculator";
@@ -30,9 +31,10 @@ export default function CustomerHomePage() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <Badge>Hackathon MVP</Badge>
             <ThemeToggle />
+            <AuthStatus />
           </div>
         </nav>
 
