@@ -21,6 +21,24 @@
     --ring: 158 59% 25%;
   }
 
+  .dark {
+    --background: 26 18% 8%;
+    --foreground: 43 36% 92%;
+    --card: 26 18% 12%;
+    --card-foreground: 43 36% 92%;
+    --primary: 158 50% 55%;
+    --primary-foreground: 26 18% 8%;
+    --secondary: 33 30% 22%;
+    --secondary-foreground: 43 36% 92%;
+    --muted: 26 14% 18%;
+    --muted-foreground: 26 14% 60%;
+    --accent: 174 25% 22%;
+    --accent-foreground: 43 36% 92%;
+    --border: 26 14% 22%;
+    --input: 26 14% 22%;
+    --ring: 158 50% 55%;
+  }
+
   * {
     @apply border-border;
   }

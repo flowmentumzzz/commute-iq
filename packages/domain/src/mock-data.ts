@@ -75,9 +75,27 @@ export const demoTrueCostInput: TrueCostInput = {
   }
 };
 
+const day = (n: number) => `2026-05-${String(n).padStart(2, "0")}T07:42:00+07:00`;
+const evening = (n: number) => `2026-05-${String(n).padStart(2, "0")}T18:34:00+07:00`;
+
 export const mockTransactions: CommuteTransaction[] = [
-  { amountVnd: 56_000, category: "ride_hailing", merchant: "GRAB", source: "mock" },
-  { amountVnd: 28_000, category: "fuel", merchant: "PETROLIMEX", source: "mock" },
-  { amountVnd: 12_000, category: "parking", merchant: "GUI XE", source: "mock" },
-  { amountVnd: 30_000, category: "routine", merchant: "CA PHE", source: "mock" }
+  { amountVnd: 38_000, category: "routine", merchant: "HIGHLANDS", source: "sms", occurredAt: day(2) },
+  { amountVnd: 8_000, category: "parking", merchant: "GUI XE Q.1", source: "sms", occurredAt: day(2) },
+  { amountVnd: 71_000, category: "ride_hailing", merchant: "GRAB", source: "sms", occurredAt: evening(2) },
+  { amountVnd: 50_000, category: "fuel", merchant: "PETROLIMEX", source: "sms", occurredAt: day(3) },
+  { amountVnd: 8_000, category: "parking", merchant: "GUI XE Q.1", source: "sms", occurredAt: day(3) },
+  { amountVnd: 38_000, category: "routine", merchant: "HIGHLANDS", source: "sms", occurredAt: day(4) },
+  { amountVnd: 8_000, category: "parking", merchant: "GUI XE Q.1", source: "sms", occurredAt: day(4) },
+  { amountVnd: 85_000, category: "ride_hailing", merchant: "GRAB", source: "sms", occurredAt: evening(4) },
+  { amountVnd: 38_000, category: "routine", merchant: "HIGHLANDS", source: "sms", occurredAt: day(5) },
+  { amountVnd: 8_000, category: "parking", merchant: "GUI XE Q.1", source: "sms", occurredAt: day(5) },
+  { amountVnd: 8_000, category: "parking", merchant: "GUI XE Q.1", source: "sms", occurredAt: day(6) },
+  { amountVnd: 38_000, category: "routine", merchant: "HIGHLANDS", source: "sms", occurredAt: day(6) },
+  { amountVnd: 50_000, category: "fuel", merchant: "PETROLIMEX", source: "sms", occurredAt: day(7) },
+  { amountVnd: 8_000, category: "parking", merchant: "GUI XE Q.1", source: "sms", occurredAt: day(8) },
+  { amountVnd: 78_000, category: "ride_hailing", merchant: "GRAB", source: "sms", occurredAt: evening(8) },
+  { amountVnd: 38_000, category: "routine", merchant: "HIGHLANDS", source: "sms", occurredAt: day(9) },
+  { amountVnd: 8_000, category: "parking", merchant: "GUI XE Q.1", source: "sms", occurredAt: day(9) },
+  { amountVnd: 35_000, category: "routine", merchant: "PHUC LONG", source: "sms", occurredAt: day(10) },
+  { amountVnd: 8_000, category: "parking", merchant: "GUI XE Q.1", source: "sms", occurredAt: day(10) }
 ];

@@ -5,6 +5,7 @@ export type CommuteTransaction = {
   category: CommuteCategory;
   merchant: string;
   source: "sms" | "manual" | "mock";
+  occurredAt?: string;
   raw?: string;
 };
 
@@ -42,4 +43,13 @@ export type TrueCostResult = {
     weatherMonthlyVnd: number;
     routineMonthlyVnd: number;
   };
+};
+
+export type MoneyLeak = {
+  merchant: string;
+  category: CommuteCategory;
+  count: number;
+  totalAmountVnd: number;
+  averageAmountVnd: number;
+  estimatedMonthlySavingsVnd: number;
 };
