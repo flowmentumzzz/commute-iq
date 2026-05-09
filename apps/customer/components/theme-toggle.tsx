@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@commute-iq/ui/components/button";
 
 type Theme = "light" | "dark" | "system";
@@ -27,6 +28,7 @@ function readStoredTheme(): Theme {
 }
 
 export function ThemeToggle() {
+  const t = useTranslations("theme");
   const [theme, setTheme] = useState<Theme>("system");
   const [hydrated, setHydrated] = useState(false);
 
@@ -55,7 +57,7 @@ export function ThemeToggle() {
     );
   };
 
-  const label = theme === "light" ? "Sáng" : theme === "dark" ? "Tối" : "Theo hệ thống";
+  const label = t(theme);
   const icon = theme === "light" ? "☀️" : theme === "dark" ? "🌙" : "🖥️";
 
   return (
@@ -63,7 +65,7 @@ export function ThemeToggle() {
       variant="outline"
       size="sm"
       onClick={cycle}
-      aria-label={`Đổi giao diện. Hiện tại: ${label}`}
+      aria-label={t("ariaLabel", { label })}
       className="gap-2"
     >
       <span aria-hidden>{icon}</span>

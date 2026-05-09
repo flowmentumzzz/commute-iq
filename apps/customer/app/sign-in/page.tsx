@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@commute-iq/ui/components/card";
 
 import { createServerSupabaseClient } from "../../lib/supabase/server";
@@ -12,6 +13,7 @@ interface SignInPageProps {
 }
 
 export default async function SignInPage({ searchParams }: SignInPageProps) {
+  const t = await getTranslations("auth");
   let user: { id: string } | null = null;
   try {
     const supabase = createServerSupabaseClient();
@@ -32,12 +34,10 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
       <Card className="w-full max-w-md">
         <CardHeader className="gap-3">
           <Link href="/" className="font-mono text-[10px] uppercase tracking-widest text-ink-soft hover:underline">
-            ← commute.vn
+            {t("backHome")}
           </Link>
-          <CardTitle className="text-3xl">Đăng nhập</CardTitle>
-          <CardDescription>
-            Nhập email — chúng tôi gửi link đăng nhập 1 chạm. Không cần mật khẩu.
-          </CardDescription>
+          <CardTitle className="text-3xl">{t("signInTitle")}</CardTitle>
+          <CardDescription>{t("signInSubtitle")}</CardDescription>
         </CardHeader>
         <CardContent>
           <SignInForm next={next} />

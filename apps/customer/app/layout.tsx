@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Be_Vietnam_Pro, DM_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Be_Vietnam_Pro, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import "@commute-iq/ui/styles/globals.css";
 
 const display = Bricolage_Grotesque({
@@ -17,17 +19,20 @@ const body = Be_Vietnam_Pro({
   display: "swap"
 });
 
-const mono = DM_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+const mono = JetBrains_Mono({
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600"],
   variable: "--font-mono",
   display: "swap"
 });
 
-export const metadata: Metadata = {
-  title: "Commute.vn",
-  description: "Thấy tiền đi lại của bạn rõ ràng — app tài chính cho người Việt thực sự đi lại."
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta");
+  return {
+    title: t("title"),
+    description: t("description")
+  };
+}
 
 const themeBootstrapScript = `
 (function () {
@@ -42,10 +47,13 @@ const themeBootstrapScript = `
 })();
 `.trim();
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="vi"
+      lang={locale}
       suppressHydrationWarning
       className={`${display.variable} ${body.variable} ${mono.variable}`}
     >
@@ -53,7 +61,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="theme-bootstrap" strategy="beforeInteractive">
           {themeBootstrapScript}
         </Script>
-        {children}
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

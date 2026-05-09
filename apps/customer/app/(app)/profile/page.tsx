@@ -1,22 +1,27 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { Badge } from "@commute-iq/ui/components/badge";
 import { Button } from "@commute-iq/ui/components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@commute-iq/ui/components/card";
 
 import { createServerSupabaseClient } from "../../../lib/supabase/server";
 
-const TRANSPORT_LABELS: Record<string, string> = {
-  motorbike: "🛵 Xe máy",
-  grab_be: "🚖 Xe công nghệ",
-  bus: "🚌 Buýt / Metro",
-  bike_walk: "🚲 Xe đạp / Đi bộ"
-};
+const TRANSPORT_KEYS = ["motorbike", "grab_be", "bus", "bike_walk"] as const;
+
+type TransportKey = (typeof TRANSPORT_KEYS)[number];
+
+function isTransportKey(value: string): value is TransportKey {
+  return (TRANSPORT_KEYS as readonly string[]).includes(value);
+}
 
 export default async function ProfileTab() {
   const supabase = createServerSupabaseClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
+
+  const t = await getTranslations("profile");
+  const tAuth = await getTranslations("auth");
 
   const email = user?.email ?? null;
 
@@ -26,30 +31,36 @@ export default async function ProfileTab() {
     .eq("user_id", user!.id)
     .maybeSingle();
 
+  const transportLabel = profile
+    ? isTransportKey(profile.primary_transport)
+      ? t(`transportLabels.${profile.primary_transport}` as const)
+      : profile.primary_transport
+    : null;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="px-1">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-ink-soft">Tôi</p>
+        <p className="font-mono text-[10px] uppercase tracking-widest text-ink-soft">{t("eyebrow")}</p>
         <h2 className="mt-1 font-display text-2xl font-extrabold tracking-tight">
-          {email?.split("@")[0] ?? "Profile"}
+          {email?.split("@")[0] ?? t("fallbackTitle")}
         </h2>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Tài khoản</CardTitle>
+          <CardTitle>{t("accountCard")}</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-3 rounded-xl border-2 border-foreground bg-paper p-3 shadow-brutal-sm">
             <div className="min-w-0">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-ink-soft">Email</p>
+              <p className="font-mono text-[10px] uppercase tracking-wider text-ink-soft">{t("emailLabel")}</p>
               <p className="truncate font-display font-semibold">{email ?? "—"}</p>
             </div>
-            <Badge variant="success">Đã đăng nhập</Badge>
+            <Badge variant="success">{tAuth("signedInBadge")}</Badge>
           </div>
           <form action="/auth/sign-out" method="POST">
             <Button type="submit" variant="secondary" className="w-full">
-              Đăng xuất
+              {tAuth("signOut")}
             </Button>
           </form>
         </CardContent>
@@ -57,29 +68,26 @@ export default async function ProfileTab() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Thiết lập đi lại</CardTitle>
+          <CardTitle>{t("commuteCard")}</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           {profile ? (
             <>
-              <ProfileRow label="Nhà" value={profile.home_label || "—"} />
-              <ProfileRow label="Văn phòng" value={profile.work_label || "—"} />
-              <ProfileRow
-                label="Phương tiện chính"
-                value={TRANSPORT_LABELS[profile.primary_transport] ?? profile.primary_transport}
-              />
+              <ProfileRow label={t("homeLabel")} value={profile.home_label || "—"} />
+              <ProfileRow label={t("workLabel")} value={profile.work_label || "—"} />
+              <ProfileRow label={t("transportLabel")} value={transportLabel ?? "—"} />
               {profile.vehicle_model && (
-                <ProfileRow label="Xe máy" value={profile.vehicle_model} />
+                <ProfileRow label={t("vehicleLabel")} value={profile.vehicle_model} />
               )}
             </>
           ) : (
             <p className="rounded-xl border-2 border-dashed border-foreground bg-paper p-3 text-sm text-ink-soft">
-              Bạn chưa thiết lập thông tin đi lại. Hoàn tất 3 bước để app hiểu cách bạn đi.
+              {t("noProfile")}
             </p>
           )}
           <Button asChild variant="default">
             <Link href="/onboarding?edit=1">
-              {profile ? "Sửa thiết lập đi lại" : "Bắt đầu thiết lập"}
+              {profile ? t("editCta") : t("startCta")}
             </Link>
           </Button>
         </CardContent>
@@ -87,14 +95,14 @@ export default async function ProfileTab() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Khác</CardTitle>
+          <CardTitle>{t("otherCard")}</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <Button asChild variant="secondary">
-            <Link href="/playground">Mở True Cost playground →</Link>
+            <Link href="/playground">{t("playgroundCta")}</Link>
           </Button>
           <p className="font-mono text-[10px] uppercase tracking-widest text-ink-soft">
-            commute.vn · v0.1
+            {t("buildLine")}
           </p>
         </CardContent>
       </Card>

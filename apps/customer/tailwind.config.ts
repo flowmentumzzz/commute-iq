@@ -53,7 +53,7 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-display)", "Bricolage Grotesque", "system-ui", "sans-serif"],
         sans: ["var(--font-body)", "Be Vietnam Pro", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "DM Mono", "ui-monospace", "monospace"]
+        mono: ["var(--font-mono)", "JetBrains Mono", "ui-monospace", "monospace"]
       },
       boxShadow: {
         brutal: "4px 4px 0 0 hsl(var(--foreground))",
