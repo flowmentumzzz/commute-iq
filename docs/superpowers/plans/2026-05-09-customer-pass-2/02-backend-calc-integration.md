@@ -8,6 +8,8 @@
 
 **Branch:** `feat/customer-api-reference` from `main`.
 
+**Status:** Not done — the customer API helper, API reference card, and home-page wiring are not present.
+
 **Depends on:** plan 00 (design system) — recommended so the new ApiReferenceCard fits visually.
 
 **Design reference:** [`./index.html`](../../../../index.html). The reference card should reuse the prototype's leak-hero / claim-summary card patterns: thick black border, hard shadow, lime or coral accent, mono labels.

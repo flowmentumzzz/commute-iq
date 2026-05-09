@@ -8,6 +8,8 @@
 
 **Branch:** `feat/app-shell-tabs` from `main`.
 
+**Status:** Not done — the `(app)` route group, tab bar, tab pages, profile surface, claims surface, and playground move are not present.
+
 **Depends on:**
 - Plan 00 (design system) — required. Tokens, fonts, brutal Card/Button must be in.
 - Plan 01 (auth) — required. Profile tab needs the user; Home greeting reads `profiles.full_name`; Claims tab pulls user-scoped rows.

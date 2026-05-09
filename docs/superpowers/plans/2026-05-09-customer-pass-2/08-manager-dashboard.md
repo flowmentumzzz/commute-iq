@@ -8,6 +8,8 @@
 
 **Branch:** `feat/manager-dashboard` from `main`.
 
+**Status:** In progress — `packages/domain/src/manager-dashboard.ts` and its tests are present, but the CRM dashboard UI, approve route, heatmap components, why route, auth gate, and page tests are not present.
+
 **Depends on:**
 - Plan 00 (design system) — required. The dashboard is a dense neo-brutalist surface; without the tokens it looks generic.
 - Plan 01 (auth) — recommended. The dashboard should require a manager-role session in production; for now, gate behind a `?demo=1` query param or a `MANAGER_DEMO_ALLOW=true` env var so the hackathon demo doesn't need real role tables.

@@ -8,6 +8,8 @@
 
 **Branch:** `feat/motorbike-catalog-expand` from `main`.
 
+**Status:** Done — the motorbike catalog is expanded to 30 entries, the calculator default now finds `honda-vision` by id, and catalog integrity tests are present. The optional research note file is not present.
+
 **Depends on:** none. Runs in parallel.
 
 **Design reference:** [`./index.html`](../../../../index.html). This is a data-only task — no UI changes — but the picker's option list will be consumed by the calculator UI which should already match the prototype after plan 00.
