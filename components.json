@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "apps/customer/tailwind.config.ts",
+    "css": "packages/ui/src/styles/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "aliases": {
+    "components": "@commute-iq/ui/components",
+    "utils": "@commute-iq/ui/lib/utils",
+    "ui": "@commute-iq/ui/components",
+    "lib": "@commute-iq/ui/lib",
+    "hooks": "@/hooks"
+  },
+  "iconLibrary": "lucide"
+}

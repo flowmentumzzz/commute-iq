@@ -1,0 +1,37 @@
+{
+  "name": "commute-iq",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Commute Wallet for Vietnam monorepo foundation.",
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "dev:customer": "npm run dev --workspace @commute-iq/customer",
+    "dev:crm": "npm run dev --workspace @commute-iq/crm",
+    "dev:api": "npm run dev --workspace @commute-iq/api",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.17.10",
+    "@types/react": "18.3.17",
+    "@types/react-dom": "18.3.5",
+    "autoprefixer": "10.4.20",
+    "eslint": "8.57.1",
+    "eslint-config-next": "14.2.23",
+    "postcss": "8.4.49",
+    "prettier": "3.4.2",
+    "tailwindcss": "3.4.17",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2",
+    "vitest": "2.1.8"
+  },
+  "packageManager": "yarn@4.12.0+sha512.f45ab632439a67f8bc759bf32ead036a1f413287b9042726b7cc4818b7b49e14e9423ba49b18f9e06ea4941c1ad062385b1d8760a8d5091a1a31e5f6219afca8"
+}
