@@ -1,4 +1,13 @@
-import { findMoneyLeaks, mockTransactions, type MoneyLeak } from "@commute-iq/domain";
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import {
+  findMoneyLeaks,
+  loadTransactions,
+  mockTransactions,
+  type CommuteTransaction,
+  type MoneyLeak
+} from "@commute-iq/domain";
 import { Badge } from "@commute-iq/ui/components/badge";
 import { Card, CardContent } from "@commute-iq/ui/components/card";
 
@@ -32,7 +41,31 @@ const CATEGORY_TIPS: Record<MoneyLeak["category"], { label: string; tip: string 
 };
 
 export function MoneyLeakSpotlight() {
-  const leaks = findMoneyLeaks(mockTransactions, { minCount: 3, limit: 3 });
+  const [userTransactions, setUserTransactions] = useState<CommuteTransaction[] | null>(null);
+
+  useEffect(() => {
+    const stored = loadTransactions(window.localStorage);
+    if (stored.length >= 3) {
+      setUserTransactions(stored);
+    } else {
+      setUserTransactions([]);
+    }
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === "commute-iq:transactions") {
+        const refreshed = loadTransactions(window.localStorage);
+        setUserTransactions(refreshed.length >= 3 ? refreshed : []);
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+  const sourceTransactions = useMemo(() => {
+    if (userTransactions && userTransactions.length >= 3) return userTransactions;
+    return mockTransactions;
+  }, [userTransactions]);
+
+  const leaks = findMoneyLeaks(sourceTransactions, { minCount: 3, limit: 3 });
   const top = leaks[0];
 
   if (!top) {

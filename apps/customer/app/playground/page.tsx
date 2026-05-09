@@ -1,11 +1,13 @@
 import { mockTransactions, transportComparisons } from "@commute-iq/domain";
+import { Suspense } from "react";
 import { Badge } from "@commute-iq/ui/components/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@commute-iq/ui/components/card";
 
-import { AuthStatus } from "../components/auth-status";
-import { MoneyLeakSpotlight } from "../components/money-leak-spotlight";
-import { ThemeToggle } from "../components/theme-toggle";
-import { TrueCostCalculator } from "../components/true-cost-calculator";
+import { ApiReferenceCard } from "../../components/api-reference-card";
+import { MoneyLeakSpotlight } from "../../components/money-leak-spotlight";
+import { TripList } from "../../components/trip-list";
+import { TrueCostCalculator } from "../../components/true-cost-calculator";
+import { WelcomeBanner } from "../../components/welcome-banner";
 
 const currency = new Intl.NumberFormat("vi-VN", {
   style: "currency",
@@ -13,32 +15,30 @@ const currency = new Intl.NumberFormat("vi-VN", {
   maximumFractionDigits: 0
 });
 
-export default function CustomerHomePage() {
+function ApiReferenceFallback() {
   return (
-    <main className="min-h-screen bg-background bg-body-bloom px-5 py-7 md:px-10">
+    <Card className="border-dashed">
+      <CardHeader>
+        <CardTitle>Đối chiếu từ NestJS API</CardTitle>
+        <CardDescription className="font-mono text-[11px] uppercase tracking-widest">
+          đang kết nối…
+        </CardDescription>
+      </CardHeader>
+    </Card>
+  );
+}
+
+export default function PlaygroundPage() {
+  return (
+    <main className="px-5 pb-12 pt-6 md:px-10">
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-        <nav className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex size-12 -rotate-[4deg] items-center justify-center rounded-[14px] border-2 border-foreground bg-lime text-2xl shadow-brutal-sm">
-              🛵
-            </div>
-            <div>
-              <p className="font-display text-2xl font-extrabold leading-none tracking-tight">
-                commute<span className="text-coral">.</span>vn
-              </p>
-              <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-ink-soft">
-                {"// thấy tiền đi lại của bạn rõ ràng"}
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge>Hackathon MVP</Badge>
-            <ThemeToggle />
-            <AuthStatus />
-          </div>
-        </nav>
+        <WelcomeBanner />
 
         <TrueCostCalculator />
+
+        <Suspense fallback={<ApiReferenceFallback />}>
+          <ApiReferenceCard />
+        </Suspense>
 
         <MoneyLeakSpotlight />
 
@@ -94,6 +94,18 @@ export default function CustomerHomePage() {
             </CardContent>
           </Card>
         </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Giao dịch của bạn</CardTitle>
+            <CardDescription>
+              Thêm tay vài chuyến để Money Leak Detector kéo dữ liệu thật của bạn.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TripList />
+          </CardContent>
+        </Card>
       </section>
     </main>
   );
