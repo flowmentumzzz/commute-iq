@@ -34,7 +34,7 @@ function makeTransaction(overrides: Partial<LocalTransaction> = {}): LocalTransa
     id: generateId(),
     amountVnd: 35_000,
     category: "routine",
-    merchant: "HIGHLANDS",
+    merchant: "CAFE A",
     source: "manual",
     occurredAt: "2026-05-09T07:42:00+07:00",
     ...overrides

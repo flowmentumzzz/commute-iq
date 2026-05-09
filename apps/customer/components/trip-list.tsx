@@ -21,7 +21,7 @@ const dateFmt = new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "2-dig
 const CATEGORY_LABEL: Record<LocalTransaction["category"], string> = {
   fuel: "Xăng",
   parking: "Gửi xe",
-  ride_hailing: "Grab / Be",
+  ride_hailing: "Xe công nghệ",
   routine: "Cà phê",
   maintenance: "Bảo dưỡng"
 };

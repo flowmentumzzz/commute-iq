@@ -2,7 +2,7 @@
 
 This foundation follows the Notion project plan for "Commute Wallet for Vietnam."
 
-## MVP Pitch
+## Product Pitch
 
 Vietnam's commute economy runs on motorbikes, cash, rain, and trust-based reimbursement. Global expense products assume cards, receipts, and clean public transit; Commute Wallet is designed for the way Vietnamese workers actually commute.
 
@@ -10,7 +10,7 @@ Vietnam's commute economy runs on motorbikes, cash, rain, and trust-based reimbu
 
 Office workers in Ho Chi Minh City or Hanoi, age 25-35, monthly salary from 15-40 million VND, commuting by motorbike, Grab/Be, bus, or mixed transport, and already comfortable with fintech apps.
 
-## MVP Features
+## Core Features
 
 ### F1: True Cost of Commute Calculator
 
@@ -24,7 +24,7 @@ The implementation currently lives in `packages/domain/src/commute-cost.ts`.
 
 ### F2: Auto-Capture Mock
 
-The hackathon version parses mock SMS and wallet notification text with regex. The implementation currently lives in `packages/domain/src/sms-parser.ts`.
+The current version parses sample SMS and wallet notification text with regex. The implementation currently lives in `packages/domain/src/sms-parser.ts`.
 
 Production can later evolve toward Open Banking APIs, Android SMS permission, notification listener support, and consented data capture.
 

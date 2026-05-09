@@ -57,7 +57,7 @@ export default async function CrmHomePage({ searchParams }: PageProps) {
         </article>
 
         <p className="text-center font-mono text-[11px] text-foreground/45">
-          Hackathon prototype · không phải dữ liệu thật · © 2026
+          Bản xem trước · dữ liệu minh hoạ · © 2026
         </p>
       </section>
     </main>

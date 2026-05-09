@@ -111,7 +111,7 @@ function buildMockHeatmap(): HeatmapCell[][] {
 }
 
 const dashboardData: ManagerDashboardData = {
-  company: { name: "FPT Software · HCM", period: "HR · Tháng 5 / 2026" },
+  company: { name: "Acme Tech · HCM", period: "HR · Tháng 5 / 2026" },
   leak: { spendVnd: 14_200_000, offPatternPct: 8, caughtVnd: 1_180_000 },
   kpis: {
     totalSpendVnd: 14_200_000,
@@ -142,7 +142,7 @@ const dashboardData: ManagerDashboardData = {
       avatarInitial: "N",
       avatarColor: "lime",
       routeFromTo: "Q.7 → Q.1",
-      mode: "🚖 Grab · OT 23:14",
+      mode: "🚖 xe công nghệ · OT 23:14",
       amountVnd: 185_000,
       amountLabel: "185k",
       flag: "ok",
@@ -168,7 +168,7 @@ const dashboardData: ManagerDashboardData = {
       avatarInitial: "P",
       avatarColor: "bg-2",
       routeFromTo: "Q.5 → Q.1",
-      mode: "🚖 Grab (claim 🛵)",
+      mode: "🚖 xe công nghệ (claim 🛵)",
       amountVnd: 228_000,
       amountLabel: "228k",
       flag: "bad",
