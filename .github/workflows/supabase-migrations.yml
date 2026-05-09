@@ -7,6 +7,7 @@ on:
     paths:
       - "supabase/migrations/**"
       - "supabase/config.toml"
+      - ".github/workflows/supabase-migrations.yml"
   workflow_dispatch:
 
 permissions:
@@ -41,18 +42,28 @@ jobs:
           test -n "$SUPABASE_PROJECT_REF"
 
       - name: Detect config changes
+        shell: bash
         id: detect
         run: |
           BASE_SHA="${{ github.event.before }}"
           if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
             echo "config_changed=false" >> "$GITHUB_OUTPUT"
+            echo "migrations_changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          if git diff --name-only "$BASE_SHA" "${{ github.sha }}" | grep -Fxq "supabase/config.toml"; then
+          CHANGED_FILES="$(git diff --name-only "$BASE_SHA" "${{ github.sha }}")"
+
+          if printf '%s\n' "$CHANGED_FILES" | grep -Fxq "supabase/config.toml"; then
             echo "config_changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "config_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if printf '%s\n' "$CHANGED_FILES" | grep -Eq '^supabase/migrations/'; then
+            echo "migrations_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "migrations_changed=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Authenticate Supabase CLI
@@ -62,11 +73,17 @@ jobs:
         run: npx --yes supabase link --project-ref "$SUPABASE_PROJECT_REF" --password "$SUPABASE_DB_PASSWORD"
 
       - name: Preview pending migrations
+        if: steps.detect.outputs.migrations_changed == 'true'
         run: npx --yes supabase db push --dry-run
 
       - name: Apply migrations
+        if: steps.detect.outputs.migrations_changed == 'true'
         run: npx --yes supabase db push
 
       - name: Push Supabase config
         if: steps.detect.outputs.config_changed == 'true'
         run: npx --yes supabase config push
+
+      - name: No-op summary
+        if: steps.detect.outputs.migrations_changed != 'true' && steps.detect.outputs.config_changed != 'true'
+        run: echo "Workflow triggered for pipeline validation only. No Supabase schema or config changes detected."
