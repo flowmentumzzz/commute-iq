@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commute.vn — Hackathon Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Mono:wght@400;500&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF6E5;--bg-2:#FFE8B0;--ink:#1A1A1A;--ink-soft:#4A4A4A;--paper:#FFFDF7;--lime:#D7FF3D;--coral:#FF6B5C;--grape:#6E5BFF;--sky:#6CC8FF;--leaf:#2BB673;--rose:#FF9CC1;--shadow:4px 4px 0 0 var(--ink);--shadow-sm:2px 2px 0 0 var(--ink);--shadow-lg:6px 6px 0 0 var(--ink)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+html,body{background:var(--bg);color:var(--ink);font-family:'Be Vietnam Pro',system-ui,sans-serif}
+body{min-height:100vh;background-image:radial-gradient(circle at 8% 12%,rgba(255,156,193,.32) 0,transparent 28%),radial-gradient(circle at 92% 78%,rgba(108,200,255,.28) 0,transparent 32%),radial-gradient(circle at 50% 100%,rgba(215,255,61,.22) 0,transparent 38%)}
+.stage{max-width:1380px;margin:0 auto;padding:28px 24px 60px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:48px;height:48px;border:2.5px solid var(--ink);background:var(--lime);border-radius:14px;display:grid;place-items:center;box-shadow:var(--shadow-sm);transform:rotate(-4deg);font-size:26px}
+.brand-name{font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:800;letter-spacing:-0.025em;line-height:1}
+.brand-name .dot{color:var(--coral)}
+.brand-tag{font-size:11px;font-family:'DM Mono',monospace;opacity:.55;margin-top:4px;text-transform:uppercase;letter-spacing:.08em}
+.top-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.nav-tabs{display:flex;gap:4px;padding:5px;background:var(--paper);border:2px solid var(--ink);border-radius:999px;box-shadow:var(--shadow-sm)}
+.nav-tabs button{border:none;background:transparent;padding:9px 18px;font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:13px;cursor:pointer;border-radius:999px;color:var(--ink);transition:all .15s}
+.nav-tabs button.on{background:var(--ink);color:var(--lime)}
+.nav-tabs button:not(.on):hover{background:rgba(0,0,0,.05)}
+.lang-toggle{font-family:'DM Mono',monospace;font-weight:500;border:2px solid var(--ink);background:var(--paper);padding:9px 14px;border-radius:12px;cursor:pointer;font-size:12px;box-shadow:var(--shadow-sm);transition:all .12s}
+.lang-toggle:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.lang-toggle .active{color:var(--coral);font-weight:700}
+.headline-strip{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--ink);color:var(--paper);border-radius:16px;box-shadow:var(--shadow-sm);margin-bottom:24px;border:2.5px solid var(--ink);overflow:hidden;position:relative}
+.headline-strip::before{content:'';position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:var(--coral);opacity:.35;filter:blur(30px)}
+.headline-strip .pill{background:var(--lime);color:var(--ink);padding:4px 10px;border-radius:99px;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;flex-shrink:0;z-index:2}
+.headline-strip .text{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:15px;line-height:1.35;z-index:2}
+.headline-strip .text em{font-style:normal;background:var(--coral);color:var(--paper);padding:0 5px;border-radius:4px}
+.split{display:grid;grid-template-columns:420px 1fr;gap:36px;align-items:start}
+@media (max-width:1100px){.split{grid-template-columns:1fr}}
+.surface-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;opacity:.55;display:flex;align-items:center;gap:10px}
+.surface-label::before,.surface-label::after{content:'';flex:1;height:1px;background:var(--ink);opacity:.25}
+.phone-wrap{position:sticky;top:24px}
+.phone{width:380px;max-width:100%;aspect-ratio:9/19.2;margin:0 auto;background:var(--ink);border-radius:48px;padding:12px;box-shadow:var(--shadow-lg),inset 0 0 0 2px #2a2a2a;position:relative}
+.phone-screen{width:100%;height:100%;border-radius:38px;background:var(--paper);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:100px;height:28px;background:var(--ink);border-radius:999px;z-index:50}
+.status-bar{padding:18px 28px 6px;font-size:13px;font-family:'DM Mono',monospace;font-weight:500;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.status-bar .right{display:flex;gap:5px;align-items:center}
+.bars{display:flex;gap:2px;align-items:end;height:10px}
+.bars i{width:3px;background:var(--ink);border-radius:1px}
+.bars i:nth-child(1){height:3px}.bars i:nth-child(2){height:5px}.bars i:nth-child(3){height:7px}.bars i:nth-child(4){height:10px}
+.screen-body{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;position:relative}
+.screen-body::-webkit-scrollbar{display:none}
+.screen{display:none;padding:4px 18px 100px;animation:fadeUp .4s ease}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.tab-bar{position:absolute;bottom:0;left:0;right:0;background:var(--paper);border-top:2px solid var(--ink);padding:10px 18px 22px;display:flex;justify-content:space-around;z-index:20}
+.tab-bar button{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink-soft);font-family:'Bricolage Grotesque',sans-serif;font-size:10px;font-weight:600;padding:4px 8px}
+.tab-bar button.on{color:var(--ink)}
+.tab-bar button.on .ico{background:var(--lime);border-color:var(--ink)}
+.tab-bar .ico{width:36px;height:36px;border-radius:12px;border:2px solid transparent;display:grid;place-items:center;font-size:16px;transition:all .2s}
+.ob{text-align:center;padding-top:18px}
+.ob-illu{width:220px;height:200px;margin:4px auto 22px}
+.ob h1{font-family:'Bricolage Grotesque',sans-serif;font-size:28px;line-height:1.08;letter-spacing:-0.025em;font-weight:800;margin-bottom:12px}
+.ob h1 .hl{background:var(--lime);padding:0 6px;border-radius:6px;-webkit-box-decoration-break:clone}
+.ob p{font-size:14px;color:var(--ink-soft);line-height:1.55;margin-bottom:26px;padding:0 4px}
+.progress{display:flex;gap:6px;justify-content:center;margin-bottom:22px}
+.progress span{width:28px;height:5px;background:rgba(0,0,0,.1);border-radius:99px;transition:all .3s}
+.progress span.on{background:var(--ink);width:40px}
+.ob .actions{display:flex;flex-direction:column;gap:10px;padding:0 4px}
+.btn{border:2px solid var(--ink);border-radius:14px;padding:13px 20px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .12s;box-shadow:var(--shadow-sm);display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:none}
+.btn-primary{background:var(--ink);color:var(--lime)}
+.btn-secondary{background:var(--paper)}
+.btn-coral{background:var(--coral);color:var(--paper)}
+.btn-lime{background:var(--lime)}
+.btn-block{width:100%}
+.loc-card{border:2px solid var(--ink);border-radius:18px;padding:14px;background:var(--paper);box-shadow:var(--shadow-sm);margin-bottom:12px;text-align:left;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s}
+.loc-card.set{background:var(--lime)}
+.loc-card .pin{width:44px;height:44px;border-radius:50%;background:var(--coral);border:2px solid var(--ink);display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.loc-card.set .pin{background:var(--ink);color:var(--lime)}
+.loc-card .info{flex:1;min-width:0}
+.loc-card .info strong{font-size:14px;display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:700}
+.loc-card .info span{font-size:12px;color:var(--ink-soft)}
+.loc-card.set .info span{color:rgba(0,0,0,.6)}
+.loc-card .check{width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;flex-shrink:0;font-weight:700}
+.loc-card.set .check{background:var(--ink);color:var(--lime)}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.mode-chip{border:2px solid var(--ink);border-radius:16px;padding:16px 12px;background:var(--paper);cursor:pointer;text-align:center;box-shadow:var(--shadow-sm);transition:all .12s}
+.mode-chip:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.mode-chip.on{background:var(--coral);color:var(--paper)}
+.mode-chip .emoji{font-size:28px;display:block;margin-bottom:4px}
+.mode-chip .label{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:13px}
+.info-tip{border:2px dashed var(--ink);border-radius:14px;padding:12px;background:var(--bg-2);margin-bottom:16px;display:flex;gap:10px;align-items:start}
+.info-tip .ic{font-size:18px;flex-shrink:0}
+.info-tip p{font-size:12px;line-height:1.45}
+.home-greet{padding:4px 4px 14px;display:flex;justify-content:space-between;align-items:center}
+.home-greet .hello{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;opacity:.55;margin-bottom:2px}
+.home-greet h2{font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.02em}
+.avatar{width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:var(--rose);display:grid;place-items:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;box-shadow:var(--shadow-sm)}
+.leak-hero{border:2.5px solid var(--ink);border-radius:24px;background:var(--coral);color:var(--paper);padding:22px;box-shadow:var(--shadow);margin-bottom:14px;position:relative;overflow:hidden}
+.leak-hero::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:var(--lime);opacity:.25;bottom:-100px;left:-50px;filter:blur(30px)}
+.leak-hero::after{content:'';position:absolute;width:140px;height:140px;border-radius:50%;background:var(--paper);opacity:.15;top:-60px;right:-40px;filter:blur(25px)}
+.leak-hero-content{position:relative;z-index:2}
+.leak-hero .badge{display:inline-flex;align-items:center;gap:5px;background:var(--ink);color:var(--lime);padding:4px 10px;border-radius:99px;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;margin-bottom:12px}
+.leak-hero h3{font-family:'Bricolage Grotesque',sans-serif;font-size:20px;line-height:1.2;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px}
+.leak-hero h3 .num{background:var(--lime);color:var(--ink);padding:0 6px;border-radius:4px}
+.leak-hero p{font-size:13px;line-height:1.5;opacity:.92;margin-bottom:14px}
+.leak-bars{display:flex;gap:4px;height:40px;align-items:end;background:rgba(0,0,0,.18);padding:6px;border-radius:10px;margin-bottom:12px}
+.leak-bars span{flex:1;background:var(--lime);border-radius:3px;min-height:6px}
+.leak-action{background:var(--ink);color:var(--lime);border:2px solid var(--ink);border-radius:12px;padding:10px 14px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;cursor:pointer;width:100%;transition:all .12s}
+.leak-action:hover{background:var(--lime);color:var(--ink)}
+.month-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.ms-card{border:2px solid var(--ink);border-radius:16px;padding:14px;box-shadow:var(--shadow-sm)}
+.ms-card.a{background:var(--paper)}
+.ms-card.b{background:var(--lime)}
+.ms-card .lbl{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.6;margin-bottom:4px}
+.ms-card .v{font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.02em;line-height:1.1}
+.ms-card .v small{font-size:12px;font-weight:500;opacity:.55}
+.ms-card .delta{margin-top:4px;font-family:'DM Mono',monospace;font-size:10px;font-weight:600}
+.ms-card .delta.down{color:var(--leaf)}
+.sec-title{display:flex;justify-content:space-between;align-items:baseline;margin:22px 4px 10px}
+.sec-title h3{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.01em}
+.sec-title a{font-family:'DM Mono',monospace;font-size:11px;text-decoration:none;color:var(--ink-soft);cursor:pointer}
+.trip{display:flex;align-items:center;gap:12px;padding:12px;border:2px solid var(--ink);border-radius:14px;background:var(--paper);box-shadow:var(--shadow-sm);margin-bottom:10px}
+.trip .icon{width:40px;height:40px;border-radius:11px;border:2px solid var(--ink);display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.trip .icon.bike{background:var(--lime)}
+.trip .icon.grab{background:var(--leaf);color:var(--paper)}
+.trip .icon.bus{background:var(--sky)}
+.trip .icon.coffee{background:var(--rose)}
+.trip .info{flex:1;min-width:0}
+.trip .info strong{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trip .info span{font-size:10px;font-family:'DM Mono',monospace;color:var(--ink-soft)}
+.trip .price{text-align:right;flex-shrink:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px}
+.trip .price small{display:block;font-size:9px;opacity:.55;font-weight:400;font-family:'DM Mono',monospace}
+.reimburse-card{border:2.5px solid var(--ink);border-radius:18px;background:var(--lime);padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
+.reimburse-card .row1{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.reimburse-card .icon-mini{width:32px;height:32px;border-radius:9px;background:var(--ink);color:var(--lime);display:grid;place-items:center;font-size:14px;flex-shrink:0}
+.reimburse-card h4{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700}
+.reimburse-card p{font-size:12px;line-height:1.45;margin-bottom:12px}
+.reimburse-card .btn{padding:10px;font-size:13px}
+.insight-tabs{display:flex;gap:6px;margin-bottom:14px}
+.insight-tabs button{flex:1;padding:8px 4px;border-radius:10px;border:2px solid var(--ink);background:var(--paper);font-family:'DM Mono',monospace;font-size:11px;font-weight:500;cursor:pointer}
+.insight-tabs button.on{background:var(--ink);color:var(--lime)}
+.breakdown{border:2px solid var(--ink);border-radius:16px;background:var(--paper);padding:14px;box-shadow:var(--shadow-sm);margin-bottom:14px}
+.breakdown h4{font-family:'Bricolage Grotesque',sans-serif;font-size:14px;margin-bottom:12px}
+.br-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12px}
+.br-row:last-child{margin-bottom:0}
+.br-row .dot{width:11px;height:11px;border-radius:4px;border:1.5px solid var(--ink);flex-shrink:0}
+.br-row .name{width:95px;font-size:12px}
+.br-row .bar{flex:1;height:8px;background:rgba(0,0,0,.06);border-radius:4px;overflow:hidden;border:1px solid rgba(0,0,0,.1)}
+.br-row .bar i{display:block;height:100%;border-radius:4px}
+.br-row .val{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;width:50px;text-align:right}
+.claim-summary{border:2.5px solid var(--ink);border-radius:22px;background:var(--ink);color:var(--paper);padding:20px;box-shadow:var(--shadow);margin-bottom:14px;position:relative;overflow:hidden}
+.claim-summary::before{content:'';position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:var(--lime);opacity:.25;filter:blur(25px)}
+.claim-summary-inner{position:relative;z-index:2}
+.claim-summary .lbl{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;opacity:.6;margin-bottom:6px}
+.claim-summary .amount{font-family:'Bricolage Grotesque',sans-serif;font-size:38px;font-weight:800;letter-spacing:-0.03em;line-height:1;margin-bottom:10px}
+.claim-summary .amount .dong{font-size:18px;opacity:.65;margin-left:2px}
+.claim-summary .meta-line{font-size:12px;opacity:.8;display:flex;align-items:center;gap:8px}
+.claim-summary .meta-line .pill{background:var(--lime);color:var(--ink);padding:2px 8px;border-radius:99px;font-family:'DM Mono',monospace;font-size:10px;font-weight:700}
+.dash{background:var(--paper);border:2.5px solid var(--ink);border-radius:28px;box-shadow:var(--shadow);overflow:hidden;min-height:760px;display:flex;flex-direction:column}
+.dash-header{padding:18px 24px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:center;background:var(--bg-2);flex-wrap:wrap;gap:14px}
+.dash-header .who h2{font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.02em}
+.dash-header .who span{font-family:'DM Mono',monospace;font-size:10px;opacity:.6;text-transform:uppercase;letter-spacing:.1em}
+.dash-header .h-actions{display:flex;gap:8px}
+.dash-header .btn{padding:8px 14px;font-size:12px}
+.dash-body{padding:22px;flex:1}
+.company-leak{border:2.5px solid var(--ink);border-radius:18px;background:var(--ink);color:var(--paper);padding:22px;box-shadow:var(--shadow);margin-bottom:18px;position:relative;overflow:hidden}
+.company-leak::before{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:var(--coral);opacity:.35;filter:blur(40px)}
+.company-leak-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:center}
+@media (max-width:720px){.company-leak-inner{grid-template-columns:1fr}}
+.company-leak .badge{display:inline-flex;align-items:center;gap:5px;background:var(--lime);color:var(--ink);padding:4px 10px;border-radius:99px;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;margin-bottom:10px}
+.company-leak h3{font-family:'Bricolage Grotesque',sans-serif;font-size:24px;line-height:1.15;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px}
+.company-leak h3 em{font-style:normal;background:var(--coral);color:var(--paper);padding:0 6px;border-radius:5px}
+.company-leak p{font-size:13px;line-height:1.5;opacity:.8}
+.leak-stat{border:1.5px solid rgba(255,255,255,.2);border-radius:14px;padding:16px;background:rgba(255,255,255,.04);text-align:center}
+.leak-stat .num{font-family:'Bricolage Grotesque',sans-serif;font-size:38px;font-weight:800;letter-spacing:-0.03em;color:var(--lime);line-height:1;margin-bottom:4px}
+.leak-stat .num small{font-size:18px;opacity:.65}
+.leak-stat .lbl{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.6}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+@media (max-width:1180px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+.kpi{border:2px solid var(--ink);border-radius:16px;padding:14px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.kpi.k1{background:var(--paper)}.kpi.k2{background:var(--lime)}.kpi.k3{background:var(--rose)}.kpi.k4{background:var(--sky)}
+.kpi .label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.65;margin-bottom:6px}
+.kpi .v{font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800;letter-spacing:-0.02em;line-height:1.1}
+.kpi .v small{font-size:13px;font-weight:500;opacity:.6}
+.kpi .delta{margin-top:4px;font-family:'DM Mono',monospace;font-size:10px;opacity:.7}
+.dash-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+@media (max-width:1180px){.dash-grid{grid-template-columns:1fr}}
+.panel{border:2px solid var(--ink);border-radius:16px;background:var(--paper);padding:18px;box-shadow:var(--shadow-sm)}
+.panel h3{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.panel h3 .meta{font-family:'DM Mono',monospace;font-size:10px;font-weight:400;opacity:.55}
+.claims-table{font-size:12px}
+.claims-thead{display:grid;grid-template-columns:32px 1.1fr 1.1fr .7fr .85fr auto;gap:10px;padding:0 4px 8px;font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;opacity:.55;font-weight:600;border-bottom:2px solid var(--ink);margin-bottom:4px}
+.claim-row{display:grid;grid-template-columns:32px 1.1fr 1.1fr .7fr .85fr auto;gap:10px;padding:12px 4px;border-bottom:1px dashed rgba(0,0,0,.12);align-items:center;transition:background .15s}
+.claim-row:hover{background:rgba(0,0,0,.025)}
+.claim-row:last-child{border-bottom:none}
+.claim-row .ava{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:11px}
+.claim-row .name strong{display:block;font-size:12px}
+.claim-row .name span{font-size:10px;font-family:'DM Mono',monospace;opacity:.55}
+.claim-row .route .from-to{display:block;font-weight:500;font-size:12px}
+.claim-row .route .mode{font-size:10px;font-family:'DM Mono',monospace;opacity:.6}
+.claim-row .amt{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px}
+.flag{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:99px;font-family:'DM Mono',monospace;font-size:9.5px;font-weight:700;border:1.5px solid var(--ink);text-transform:uppercase;letter-spacing:.05em}
+.flag.ok{background:var(--lime)}
+.flag.warn{background:var(--bg-2)}
+.flag.bad{background:var(--coral);color:var(--paper)}
+.row-action{border:1.5px solid var(--ink);background:var(--paper);padding:5px 10px;border-radius:8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:600;cursor:pointer;transition:all .12s}
+.row-action:hover{background:var(--ink);color:var(--lime)}
+.row-action.approve{background:var(--lime)}
+.row-action.approved{background:var(--leaf);color:var(--paper);border-color:var(--leaf);cursor:default}
+.leak-list{list-style:none}
+.leak-item{padding:12px 0;border-bottom:1px dashed rgba(0,0,0,.12);display:flex;gap:12px}
+.leak-item:last-child{border-bottom:none}
+.leak-item .num{width:28px;height:28px;border-radius:8px;background:var(--coral);color:var(--paper);display:grid;place-items:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:13px;flex-shrink:0;border:1.5px solid var(--ink)}
+.leak-item .num.warn{background:var(--bg-2);color:var(--ink)}
+.leak-item .num.info{background:var(--sky);color:var(--ink)}
+.leak-item .body strong{display:block;font-size:12.5px;line-height:1.3;font-weight:600;margin-bottom:2px}
+.leak-item .body span{font-size:11px;line-height:1.4;color:var(--ink-soft);font-family:'DM Mono',monospace}
+.heatmap-wrap{margin-top:12px}
+.heatmap-legend{font-family:'DM Mono',monospace;font-size:10px;opacity:.5;display:flex;justify-content:space-between;margin-bottom:6px}
+.heatmap{display:grid;grid-template-columns:28px repeat(12,1fr);gap:3px;font-family:'DM Mono',monospace;font-size:9px}
+.heatmap .lab{display:grid;place-items:center;opacity:.5;height:14px}
+.heatmap .cell{aspect-ratio:1;border-radius:3px;background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.05)}
+.heatmap .cell.l1{background:rgba(43,182,115,.25)}
+.heatmap .cell.l2{background:rgba(43,182,115,.5)}
+.heatmap .cell.l3{background:rgba(43,182,115,.75)}
+.heatmap .cell.l4{background:var(--leaf)}
+.heatmap .cell.flag{background:var(--coral);border-color:var(--ink)}
+.why-panel{margin-top:32px;border:2.5px solid var(--ink);border-radius:24px;background:var(--ink);color:var(--paper);padding:28px;box-shadow:var(--shadow);position:relative;overflow:hidden;display:none}
+.why-panel.on{display:block}
+.why-panel::before{content:'';position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:var(--coral);opacity:.3;filter:blur(50px)}
+.why-panel::after{content:'';position:absolute;left:-80px;bottom:-80px;width:240px;height:240px;border-radius:50%;background:var(--grape);opacity:.25;filter:blur(50px)}
+.why-content{position:relative;z-index:2}
+.why-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.why-head h2{font-family:'Bricolage Grotesque',sans-serif;font-size:32px;font-weight:800;letter-spacing:-0.025em;line-height:1.05}
+.why-head h2 em{font-style:normal;background:var(--lime);color:var(--ink);padding:0 6px;border-radius:6px}
+.why-head .meta{font-family:'DM Mono',monospace;font-size:11px;opacity:.55}
+.vs-table{border:1.5px solid rgba(255,255,255,.2);border-radius:16px;overflow:hidden;margin-bottom:24px}
+.vs-row{display:grid;grid-template-columns:1fr 1.5fr 1.5fr;border-bottom:1px solid rgba(255,255,255,.12)}
+.vs-row:last-child{border-bottom:none}
+.vs-row>div{padding:14px 18px}
+.vs-row.head{background:rgba(255,255,255,.06);font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.7;font-weight:600}
+.vs-row.head>div:nth-child(2){background:rgba(215,255,61,.1);color:var(--lime)}
+.vs-row .dim{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:14px;opacity:.85;border-right:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.02)}
+.vs-row .us{font-size:13px;line-height:1.5;background:rgba(215,255,61,.06);border-right:1px solid rgba(255,255,255,.12)}
+.vs-row .us strong{color:var(--lime);font-weight:600}
+.vs-row .them{font-size:13px;line-height:1.5;opacity:.65}
+@media (max-width:720px){.vs-row{grid-template-columns:1fr}.vs-row>div{border-right:none!important;padding:10px 14px}}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.why-grid{grid-template-columns:1fr}}
+.why-card{border:1.5px solid rgba(255,255,255,.18);border-radius:16px;padding:18px;background:rgba(255,255,255,.04)}
+.why-card .ic{width:38px;height:38px;border-radius:10px;background:var(--lime);color:var(--ink);display:grid;place-items:center;font-size:18px;margin-bottom:12px;border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.why-card h4{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px;letter-spacing:-0.01em}
+.why-card p{font-size:13px;line-height:1.5;opacity:.78}
+.tooltip-tip{position:absolute;top:60px;right:14px;background:var(--grape);color:var(--paper);padding:8px 12px;border-radius:12px;border:2px solid var(--ink);box-shadow:var(--shadow-sm);font-size:11px;font-family:'DM Mono',monospace;z-index:30;max-width:170px;animation:bounce 2s ease-in-out infinite;line-height:1.35}
+.tooltip-tip::before{content:'';position:absolute;top:-8px;right:24px;width:12px;height:12px;background:var(--grape);border-left:2px solid var(--ink);border-top:2px solid var(--ink);transform:rotate(45deg)}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.footnote{text-align:center;margin-top:36px;font-family:'DM Mono',monospace;font-size:11px;opacity:.5}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--lime);padding:14px 22px;border-radius:14px;border:2px solid var(--ink);box-shadow:var(--shadow);font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:14px;z-index:1000;opacity:0;pointer-events:none;transition:all .3s}
+.toast.show{opacity:1;transform:translate(-50%,-8px)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">🛵</div>
+      <div>
+        <div class="brand-name">commute<span class="dot">.</span>vn</div>
+        <div class="brand-tag" data-vn="// thấy tiền đi lại của bạn rõ ràng" data-en="// see your real commute cost">// thấy tiền đi lại của bạn rõ ràng</div>
+      </div>
+    </div>
+    <div class="top-controls">
+      <div class="nav-tabs" role="tablist">
+        <button class="on" data-view="prototype" data-vn="Prototype" data-en="Prototype">Prototype</button>
+        <button data-view="why" data-vn="Vì sao là tụi mình" data-en="Why us">Vì sao là tụi mình</button>
+      </div>
+      <button class="lang-toggle" id="langToggle"><span class="active">VN</span> / <span>EN</span></button>
+    </div>
+  </div>
+
+  <div class="headline-strip">
+    <span class="pill" data-vn="HACKATHON" data-en="HACKATHON">HACKATHON</span>
+    <div class="text" data-vn="App tài chính đầu tiên hiểu cách <em>người Việt thực sự đi lại</em> — xe máy, gửi xe, cà phê dọc đường." data-en="The first money app that understands how <em>Vietnamese people actually move</em> — motorbikes, parking, on-the-way coffee.">
+      App tài chính đầu tiên hiểu cách <em>người Việt thực sự đi lại</em> — xe máy, gửi xe, cà phê dọc đường.
+    </div>
+  </div>
+
+  <div id="view-prototype">
+  <div class="split">
+    <div class="phone-wrap">
+      <div class="surface-label" data-vn="App nhân viên · iPhone" data-en="Employee app · iPhone">App nhân viên · iPhone</div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="notch"></div>
+          <div class="status-bar">
+            <span>9:41</span>
+            <div class="right">
+              <div class="bars"><i></i><i></i><i></i><i></i></div>
+              <span>5G</span>
+              <span>🔋</span>
+            </div>
+          </div>
+
+          <div class="screen-body" id="screenBody">
+            <div class="screen active" data-screen="welcome">
+              <div class="ob">
+                <div class="ob-illu">
+                  <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+                    <ellipse cx="110" cy="170" rx="90" ry="12" fill="#1A1A1A" opacity=".08"/>
+                    <rect x="40" y="65" width="140" height="95" rx="14" fill="#D7FF3D" stroke="#1A1A1A" stroke-width="3"/>
+                    <rect x="40" y="65" width="140" height="28" rx="14" fill="#FF6B5C" stroke="#1A1A1A" stroke-width="3"/>
+                    <circle cx="155" cy="113" r="13" fill="#1A1A1A"/>
+                    <circle cx="155" cy="113" r="5" fill="#D7FF3D"/>
+                    <g transform="translate(58 22)">
+                      <circle cx="20" cy="20" r="22" fill="#FFFDF7" stroke="#1A1A1A" stroke-width="2.5"/>
+                      <text x="20" y="28" font-size="22" text-anchor="middle">🛵</text>
+                    </g>
+                    <g transform="translate(140 12)">
+                      <circle cx="20" cy="20" r="20" fill="#6CC8FF" stroke="#1A1A1A" stroke-width="2.5"/>
+                      <text x="20" y="27" font-size="18" text-anchor="middle">☕</text>
+                    </g>
+                    <g transform="translate(170 75)">
+                      <circle cx="16" cy="16" r="16" fill="#FF9CC1" stroke="#1A1A1A" stroke-width="2.5"/>
+                      <text x="16" y="22" font-size="15" text-anchor="middle">⛽</text>
+                    </g>
+                    <circle cx="28" cy="135" r="9" fill="#FFE8B0" stroke="#1A1A1A" stroke-width="2"/>
+                    <text x="28" y="139" font-size="10" text-anchor="middle" font-weight="700">đ</text>
+                    <circle cx="195" cy="150" r="7" fill="#FFE8B0" stroke="#1A1A1A" stroke-width="2"/>
+                    <text x="195" y="153" font-size="8" text-anchor="middle" font-weight="700">đ</text>
+                  </svg>
+                </div>
+                <div class="progress"><span class="on"></span><span></span><span></span></div>
+                <h1 data-vn="Tiền đi lại,<br>nhìn rõ <span class='hl'>trong 30 giây</span>" data-en="Your commute cost,<br><span class='hl'>seen clearly</span> in 30s">
+                  Tiền đi lại,<br>nhìn rõ <span class='hl'>trong 30 giây</span>
+                </h1>
+                <p data-vn="Không cần gõ tay. App tự nhận xe máy, Grab, gửi xe, cà phê dọc đường — và chỉ ra chỗ tiền đang chảy." data-en="No typing. We auto-detect motorbike, Grab, parking, and on-the-way coffee — then show where the money quietly drips.">
+                  Không cần gõ tay. App tự nhận xe máy, Grab, gửi xe, cà phê dọc đường — và chỉ ra chỗ tiền đang chảy.
+                </p>
+                <div class="actions">
+                  <button class="btn btn-primary btn-block" data-go="setup-loc" data-vn="Bắt đầu →" data-en="Get started →">Bắt đầu →</button>
+                  <button class="btn btn-secondary btn-block" data-vn="Tôi đã có tài khoản" data-en="I have an account">Tôi đã có tài khoản</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen" data-screen="setup-loc">
+              <div style="padding-top: 4px;">
+                <div class="progress"><span class="on"></span><span class="on"></span><span></span></div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800;letter-spacing:-0.02em;line-height:1.12;margin-bottom:8px;" data-vn="Chỉ cần 2 điểm" data-en="Just two pins">Chỉ cần 2 điểm</h1>
+                <p style="font-size:13px;color:var(--ink-soft);margin-bottom:18px;line-height:1.5;" data-vn="Nhà và công ty. App sẽ nhận ra mọi chuyến đi từ đó." data-en="Home and office. We'll recognize every trip from there.">Nhà và công ty. App sẽ nhận ra mọi chuyến đi từ đó.</p>
+                <div class="loc-card set" id="loc-home">
+                  <div class="pin">🏠</div>
+                  <div class="info"><strong data-vn="Nhà" data-en="Home">Nhà</strong><span>123 Lý Thường Kiệt, Q.10</span></div>
+                  <div class="check">✓</div>
+                </div>
+                <div class="loc-card" id="loc-office">
+                  <div class="pin">🏢</div>
+                  <div class="info"><strong data-vn="Văn phòng" data-en="Office">Văn phòng</strong><span data-vn="Chạm để đặt vị trí" data-en="Tap to set">Chạm để đặt vị trí</span></div>
+                  <div class="check">+</div>
+                </div>
+                <p style="font-size:11px;opacity:.55;margin:14px 4px 18px;font-family:'DM Mono',monospace;line-height:1.5;" data-vn="🔒 Vị trí lưu trên thiết bị, không gửi đi đâu." data-en="🔒 Locations stay on your device. Not sent anywhere.">🔒 Vị trí lưu trên thiết bị, không gửi đi đâu.</p>
+                <button class="btn btn-primary btn-block" data-go="setup-mode" data-vn="Tiếp →" data-en="Next →">Tiếp →</button>
+              </div>
+            </div>
+
+            <div class="screen" data-screen="setup-mode">
+              <div style="padding-top: 4px;">
+                <div class="progress"><span class="on"></span><span class="on"></span><span class="on"></span></div>
+                <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-size:24px;font-weight:800;letter-spacing:-0.02em;line-height:1.12;margin-bottom:8px;" data-vn="Bạn đi gì hằng ngày?" data-en="How do you commute?">Bạn đi gì hằng ngày?</h1>
+                <p style="font-size:13px;color:var(--ink-soft);margin-bottom:16px;line-height:1.5;" data-vn="Chọn cái bạn dùng nhiều nhất. Đổi lúc nào cũng được." data-en="Pick your main mode. You can change it anytime.">Chọn cái bạn dùng nhiều nhất. Đổi lúc nào cũng được.</p>
+                <div class="mode-grid">
+                  <div class="mode-chip on"><span class="emoji">🛵</span><span class="label" data-vn="Xe máy" data-en="Motorbike">Xe máy</span></div>
+                  <div class="mode-chip"><span class="emoji">🚖</span><span class="label">Grab / Be</span></div>
+                  <div class="mode-chip"><span class="emoji">🚌</span><span class="label" data-vn="Buýt / Metro" data-en="Bus / Metro">Buýt / Metro</span></div>
+                  <div class="mode-chip"><span class="emoji">🚲</span><span class="label" data-vn="Xe đạp / Đi bộ" data-en="Bike / Walk">Xe đạp / Đi bộ</span></div>
+                </div>
+                <div class="info-tip">
+                  <span class="ic">💡</span>
+                  <p data-vn="App hiểu <strong>chuyến hỗn hợp</strong> — ví dụ: xe máy → gửi xe → cà phê → văn phòng. Đó là chuyện thường ngày ở Sài Gòn." data-en="We handle <strong>mixed trips</strong> — e.g. motorbike → parking → coffee → office. A normal Saigon day.">App hiểu <strong>chuyến hỗn hợp</strong> — ví dụ: xe máy → gửi xe → cà phê → văn phòng. Đó là chuyện thường ngày ở Sài Gòn.</p>
+                </div>
+                <button class="btn btn-primary btn-block" data-go="home" data-vn="Vào app 🚀" data-en="Open app 🚀">Vào app 🚀</button>
+              </div>
+            </div>
+
+            <div class="screen" data-screen="home">
+              <div class="tooltip-tip" id="firstTip">↓ <span data-vn="Đây là chỗ tiền đang chảy âm thầm." data-en="This is where money quietly drips.">Đây là chỗ tiền đang chảy âm thầm.</span></div>
+              <div class="home-greet">
+                <div><div class="hello" data-vn="CHÀO BUỔI SÁNG" data-en="GOOD MORNING">CHÀO BUỔI SÁNG</div><h2>Dat 👋</h2></div>
+                <div class="avatar">D</div>
+              </div>
+              <div class="leak-hero">
+                <div class="leak-hero-content">
+                  <div class="badge">✨ MONEY LEAK</div>
+                  <h3 data-vn="Cà phê + gửi xe trên đường = <span class='num'>380.000đ</span>/tháng" data-en="On-the-way coffee + parking = <span class='num'>380,000đ</span>/month">Cà phê + gửi xe trên đường = <span class='num'>380.000đ</span>/tháng</h3>
+                  <p data-vn="Bạn dừng cùng 1 quán cà phê <strong>14 lần</strong> trong tháng. Tự pha ở nhà = tiết kiệm ~280k." data-en="You stopped at the same café <strong>14 times</strong> this month. Brewing at home saves ~280k.">Bạn dừng cùng 1 quán cà phê <strong>14 lần</strong> trong tháng. Tự pha ở nhà = tiết kiệm ~280k.</p>
+                  <div class="leak-bars">
+                    <span style="height:30%"></span><span style="height:55%"></span><span style="height:42%"></span><span style="height:70%"></span><span style="height:60%"></span><span style="height:85%"></span><span style="height:50%"></span><span style="height:90%"></span><span style="height:65%"></span><span style="height:78%"></span><span style="height:55%"></span><span style="height:88%"></span>
+                  </div>
+                  <button class="leak-action" data-vn="Cho tôi xem chi tiết →" data-en="Show me the breakdown →">Cho tôi xem chi tiết →</button>
+                </div>
+              </div>
+              <div class="month-summary">
+                <div class="ms-card a"><div class="lbl" data-vn="THÁNG NÀY" data-en="THIS MONTH">THÁNG NÀY</div><div class="v">1.240<small>k đ</small></div><div class="delta down" data-vn="↓ 12% vs tháng trước" data-en="↓ 12% vs last month">↓ 12% vs tháng trước</div></div>
+                <div class="ms-card b"><div class="lbl" data-vn="ĐÃ ĐI" data-en="TRIPS">ĐÃ ĐI</div><div class="v">47 <small data-vn="chuyến" data-en="trips">chuyến</small></div><div class="delta" data-vn="trung bình 26k/chuyến" data-en="avg 26k/trip">trung bình 26k/chuyến</div></div>
+              </div>
+              <div class="reimburse-card">
+                <div class="row1"><div class="icon-mini">💼</div><h4 data-vn="Bạn được hoàn 320.000đ" data-en="You're owed 320,000đ">Bạn được hoàn 320.000đ</h4></div>
+                <p data-vn="Công ty (FPT Software) đã bật chính sách hỗ trợ đi lại. App tính sẵn — chỉ cần xác nhận." data-en="Your company (FPT Software) enabled commute reimbursement. We pre-filled it — just confirm.">Công ty (FPT Software) đã bật chính sách hỗ trợ đi lại. App tính sẵn — chỉ cần xác nhận.</p>
+                <button class="btn btn-primary btn-block" data-go-tab="claims" data-vn="Xác nhận & gửi 1 chạm" data-en="Confirm & submit · 1 tap">Xác nhận & gửi 1 chạm</button>
+              </div>
+              <div class="sec-title"><h3 data-vn="Hôm nay" data-en="Today">Hôm nay</h3><a data-vn="Xem tất cả →" data-en="See all →">Xem tất cả →</a></div>
+              <div class="trip"><div class="icon bike">🛵</div><div class="info"><strong data-vn="Nhà → Văn phòng" data-en="Home → Office">Nhà → Văn phòng</strong><span>07:42 · 6.3km · auto</span></div><div class="price">22k <small data-vn="xăng + gửi" data-en="fuel + park">xăng + gửi</small></div></div>
+              <div class="trip"><div class="icon coffee">☕</div><div class="info"><strong data-vn="Highlands · trên đường" data-en="Highlands · on the way">Highlands · trên đường</strong><span data-vn="07:55 · ngã tư CMT8" data-en="07:55 · CMT8 junction">07:55 · ngã tư CMT8</span></div><div class="price">38k <small data-vn="lần 14 / tháng" data-en="14th / month">lần 14 / tháng</small></div></div>
+              <div class="trip"><div class="icon grab">🚖</div><div class="info"><strong data-vn="Grab về nhà · trời mưa" data-en="Grab home · rainy">Grab về nhà · trời mưa</strong><span>18:34 · 6.1km</span></div><div class="price">71k <small></small></div></div>
+            </div>
+
+            <div class="screen" data-screen="insights">
+              <div class="home-greet"><div><div class="hello" data-vn="THẤU HIỂU" data-en="INSIGHTS">THẤU HIỂU</div><h2 data-vn="Tiền đi đâu?" data-en="Where it went">Tiền đi đâu?</h2></div><div class="avatar">D</div></div>
+              <div class="insight-tabs"><button data-vn="Tuần" data-en="Week">Tuần</button><button class="on" data-vn="Tháng" data-en="Month">Tháng</button><button data-vn="3 tháng" data-en="3 mo">3 tháng</button></div>
+              <div class="leak-hero" style="background: var(--ink); margin-bottom:14px;">
+                <div class="leak-hero-content">
+                  <div class="badge" style="background:var(--lime); color:var(--ink);" data-vn="THÁNG 5 / 2026" data-en="MAY / 2026">THÁNG 5 / 2026</div>
+                  <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:36px;font-weight:800;letter-spacing:-0.03em;line-height:1;margin-bottom:8px;">1.240.000<span style="font-size:18px;opacity:.65;">đ</span></div>
+                  <p style="margin-bottom:0;" data-vn="<strong style='color:var(--lime)'>↓ 12%</strong> so với tháng trước · tiết kiệm 169k" data-en="<strong style='color:var(--lime)'>↓ 12%</strong> vs last month · saved 169k"><strong style="color:var(--lime)">↓ 12%</strong> so với tháng trước · tiết kiệm 169k</p>
+                </div>
+              </div>
+              <div class="breakdown">
+                <h4 data-vn="Theo loại chi" data-en="By category">Theo loại chi</h4>
+                <div class="br-row"><span class="dot" style="background:var(--coral);"></span><span class="name" data-vn="Xăng + gửi xe" data-en="Fuel + parking">Xăng + gửi xe</span><span class="bar"><i style="width:74%;background:var(--coral);"></i></span><span class="val">462k</span></div>
+                <div class="br-row"><span class="dot" style="background:var(--leaf);"></span><span class="name">Grab / Be</span><span class="bar"><i style="width:55%;background:var(--leaf);"></i></span><span class="val">340k</span></div>
+                <div class="br-row"><span class="dot" style="background:var(--rose);"></span><span class="name" data-vn="Cà phê dọc đường" data-en="On-the-way coffee">Cà phê dọc đường</span><span class="bar"><i style="width:42%;background:var(--rose);"></i></span><span class="val">266k</span></div>
+                <div class="br-row"><span class="dot" style="background:var(--sky);"></span><span class="name" data-vn="Buýt / Metro" data-en="Bus / Metro">Buýt / Metro</span><span class="bar"><i style="width:18%;background:var(--sky);"></i></span><span class="val">112k</span></div>
+                <div class="br-row"><span class="dot" style="background:var(--bg-2);border:1.5px solid var(--ink);"></span><span class="name" data-vn="Cầu, cao tốc" data-en="Tolls">Cầu, cao tốc</span><span class="bar"><i style="width:10%;background:var(--bg-2);border:1px solid rgba(0,0,0,.2);"></i></span><span class="val">60k</span></div>
+              </div>
+              <div class="leak-hero" style="background: var(--lime); color:var(--ink);">
+                <div class="leak-hero-content">
+                  <div class="badge" style="background:var(--ink); color:var(--lime);">🎯 GỢI Ý</div>
+                  <h3 style="margin-bottom:8px;" data-vn="3 ngày/tuần đi metro = tiết kiệm <span style='background:var(--ink);color:var(--lime);padding:0 6px;border-radius:4px;'>240k/tháng</span>" data-en="Metro 3 days/week = save <span style='background:var(--ink);color:var(--lime);padding:0 6px;border-radius:4px;'>240k/mo</span>">3 ngày/tuần đi metro = tiết kiệm <span style="background:var(--ink);color:var(--lime);padding:0 6px;border-radius:4px;">240k/tháng</span></h3>
+                  <p style="opacity:.85;" data-vn="Tuyến metro số 1 đi qua công ty bạn. App đã thử với 47 chuyến đã ghi." data-en="Metro line 1 passes your office. We tested it against your last 47 trips.">Tuyến metro số 1 đi qua công ty bạn. App đã thử với 47 chuyến đã ghi.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="screen" data-screen="claims">
+              <div class="home-greet"><div><div class="hello" data-vn="HOÀN PHÍ" data-en="REIMBURSE">HOÀN PHÍ</div><h2 data-vn="Tự động nhận lại" data-en="Auto reimburse">Tự động nhận lại</h2></div><div class="avatar">D</div></div>
+              <div class="claim-summary"><div class="claim-summary-inner"><div class="lbl" data-vn="ĐANG CHỜ XÁC NHẬN" data-en="READY TO SUBMIT">ĐANG CHỜ XÁC NHẬN</div><div class="amount">320.000<span class="dong">đ</span></div><div class="meta-line"><span class="pill" data-vn="8 chuyến" data-en="8 trips">8 chuyến</span><span data-vn="đã khớp chính sách công ty" data-en="matched company policy">đã khớp chính sách công ty</span></div></div></div>
+              <button class="btn btn-coral btn-block" id="submitClaimBtn" style="margin-bottom:16px;" data-vn="✨ Gửi 8 chuyến · 1 chạm" data-en="✨ Submit 8 trips · 1 tap">✨ Gửi 8 chuyến · 1 chạm</button>
+              <div class="sec-title"><h3 data-vn="Chuyến đủ điều kiện" data-en="Eligible trips">Chuyến đủ điều kiện</h3><a data-vn="Sửa →" data-en="Edit →">Sửa →</a></div>
+              <div class="trip"><div class="icon bike">🛵</div><div class="info"><strong>06/05 · Home → Office</strong><span>07:42 · ✓ geofence match</span></div><div class="price">40k</div></div>
+              <div class="trip"><div class="icon bike">🛵</div><div class="info"><strong>05/05 · Home → Office</strong><span>07:50 · ✓ geofence match</span></div><div class="price">40k</div></div>
+              <div class="trip"><div class="icon grab">🚖</div><div class="info"><strong>04/05 · Grab · OT 22:30</strong><span data-vn="ca tăng — chính sách trễ" data-en="overtime · late-shift">ca tăng — chính sách trễ</span></div><div class="price">85k</div></div>
+              <div class="trip"><div class="icon bike">🛵</div><div class="info"><strong>03/05 · Home → Office</strong><span>07:48 · ✓ geofence match</span></div><div class="price">40k</div></div>
+              <div class="trip"><div class="icon bike">🛵</div><div class="info"><strong>02/05 · Home → Office</strong><span>07:55 · ✓ geofence match</span></div><div class="price">40k</div></div>
+            </div>
+          </div>
+
+          <div class="tab-bar" id="tabBar">
+            <button class="on" data-tab="home"><span class="ico">🏠</span><span data-vn="Trang chủ" data-en="Home">Trang chủ</span></button>
+            <button data-tab="insights"><span class="ico">📊</span><span data-vn="Thấu hiểu" data-en="Insights">Thấu hiểu</span></button>
+            <button data-tab="claims"><span class="ico">💼</span><span data-vn="Hoàn phí" data-en="Claims">Hoàn phí</span></button>
+            <button data-tab="profile"><span class="ico">👤</span><span data-vn="Tôi" data-en="Me">Tôi</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="surface-label" data-vn="Bảng quản lý · HR / Finance" data-en="Manager dashboard · HR / Finance">Bảng quản lý · HR / Finance</div>
+      <div class="dash">
+        <div class="dash-header">
+          <div class="who"><h2>FPT Software · HCM</h2><span data-vn="HR · Tháng 5 / 2026" data-en="HR · May 2026">HR · Tháng 5 / 2026</span></div>
+          <div class="h-actions"><button class="btn btn-secondary" data-vn="Xuất CSV" data-en="Export">Xuất CSV</button><button class="btn btn-primary" data-vn="Duyệt tất cả ✓" data-en="Approve all ✓">Duyệt tất cả ✓</button></div>
+        </div>
+        <div class="dash-body">
+          <div class="company-leak">
+            <div class="company-leak-inner">
+              <div>
+                <div class="badge">✨ COMPANY MONEY LEAK</div>
+                <h3 data-vn="Tháng này, công ty chi <em>14 triệu</em> hỗ trợ đi lại — và 8% là chi sai pattern." data-en="This month, the company spent <em>14M</em> on commute support — and 8% follows odd patterns.">Tháng này, công ty chi <em>14 triệu</em> hỗ trợ đi lại — và 8% là chi sai pattern.</h3>
+                <p data-vn="App tự dò 3 nhóm rò rỉ: claim trùng, chế độ không khớp, không có mặt tại văn phòng." data-en="We auto-detect 3 leak patterns: duplicate claims, mode mismatch, no office presence.">App tự dò 3 nhóm rò rỉ: claim trùng, chế độ không khớp, không có mặt tại văn phòng.</p>
+              </div>
+              <div class="leak-stat"><div class="num">1.18<small>M</small></div><div class="lbl" data-vn="rò rỉ phát hiện được" data-en="leakage caught">rò rỉ phát hiện được</div></div>
+            </div>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi k1"><div class="label" data-vn="TỔNG CHI" data-en="TOTAL SPEND">TỔNG CHI</div><div class="v">14.2<small>M đ</small></div><div class="delta" data-vn="142 nhân viên" data-en="142 employees">142 nhân viên</div></div>
+            <div class="kpi k2"><div class="label" data-vn="ĐÃ DUYỆT" data-en="APPROVED">ĐÃ DUYỆT</div><div class="v">87<small>/118</small></div><div class="delta" data-vn="74% claim tháng này" data-en="74% of this month">74% claim tháng này</div></div>
+            <div class="kpi k3"><div class="label" data-vn="CẦN XEM" data-en="NEEDS REVIEW">CẦN XEM</div><div class="v">12 <small>⚠</small></div><div class="delta" data-vn="bất thường nhẹ" data-en="mild anomalies">bất thường nhẹ</div></div>
+            <div class="kpi k4"><div class="label" data-vn="ĐÁNH DẤU" data-en="FLAGGED">ĐÁNH DẤU</div><div class="v">3 <small>✗</small></div><div class="delta" data-vn="có thể trùng / sai pattern" data-en="possible dup / mismatch">có thể trùng / sai pattern</div></div>
+          </div>
+          <div class="dash-grid">
+            <div class="panel">
+              <h3><span data-vn="Yêu cầu hoàn phí gần đây" data-en="Recent claims">Yêu cầu hoàn phí gần đây</span><span class="meta">8 / 118</span></h3>
+              <div class="claims-table">
+                <div class="claims-thead"><span></span><span data-vn="Nhân viên" data-en="Employee">Nhân viên</span><span data-vn="Tuyến" data-en="Route">Tuyến</span><span data-vn="Số tiền" data-en="Amount">Số tiền</span><span data-vn="Trạng thái" data-en="Status">Trạng thái</span><span></span></div>
+                <div class="claim-row"><div class="ava" style="background:var(--rose);">L</div><div class="name"><strong>Lê Mai Anh</strong><span>HR</span></div><div class="route"><span class="from-to" data-vn="Q.Bình Thạnh → Q.1" data-en="Binh Thanh → D.1">Q.Bình Thạnh → Q.1</span><span class="mode" data-vn="🛵 xe máy · 8 chuyến" data-en="🛵 motorbike · 8 trips">🛵 xe máy · 8 chuyến</span></div><div class="amt">320k</div><div><span class="flag ok">✓ ok</span></div><button class="row-action approve" data-vn="Duyệt" data-en="Approve">Duyệt</button></div>
+                <div class="claim-row"><div class="ava" style="background:var(--lime);">N</div><div class="name"><strong>Nguyễn Văn Phúc</strong><span>Eng</span></div><div class="route"><span class="from-to" data-vn="Q.7 → Q.1" data-en="D.7 → D.1">Q.7 → Q.1</span><span class="mode">🚖 Grab · OT 23:14</span></div><div class="amt">185k</div><div><span class="flag ok">✓ ok</span></div><button class="row-action approve" data-vn="Duyệt" data-en="Approve">Duyệt</button></div>
+                <div class="claim-row"><div class="ava" style="background:var(--sky);">T</div><div class="name"><strong>Trần Quốc Thắng</strong><span>Sales</span></div><div class="route"><span class="from-to" data-vn="Thủ Đức → Q.3" data-en="Thu Duc → D.3">Thủ Đức → Q.3</span><span class="mode" data-vn="🛵 + ☕ 14× cà phê" data-en="🛵 + ☕ 14× coffee">🛵 + ☕ 14× cà phê</span></div><div class="amt">412k</div><div><span class="flag warn" data-vn="⚠ xem" data-en="⚠ check">⚠ xem</span></div><button class="row-action" data-vn="Xem" data-en="View">Xem</button></div>
+                <div class="claim-row"><div class="ava" style="background:var(--bg-2);">P</div><div class="name"><strong>Phạm Hoàng Nam</strong><span>Ops</span></div><div class="route"><span class="from-to" data-vn="Q.5 → Q.1" data-en="D.5 → D.1">Q.5 → Q.1</span><span class="mode" data-vn="🚖 Grab (claim 🛵)" data-en="🚖 Grab (claimed 🛵)">🚖 Grab (claim 🛵)</span></div><div class="amt">228k</div><div><span class="flag bad" data-vn="✗ sai mode" data-en="✗ mismatch">✗ sai mode</span></div><button class="row-action" data-vn="Xem" data-en="View">Xem</button></div>
+                <div class="claim-row"><div class="ava" style="background:var(--coral);color:var(--paper);">V</div><div class="name"><strong>Vũ Thị Hồng</strong><span>Mkt</span></div><div class="route"><span class="from-to" data-vn="Tân Bình → Q.1" data-en="Tan Binh → D.1">Tân Bình → Q.1</span><span class="mode" data-vn="🛵 không có mặt VP" data-en="🛵 no office presence">🛵 không có mặt VP</span></div><div class="amt">160k</div><div><span class="flag bad" data-vn="✗ trùng" data-en="✗ dup">✗ trùng</span></div><button class="row-action" data-vn="Xem" data-en="View">Xem</button></div>
+                <div class="claim-row"><div class="ava" style="background:var(--leaf);color:var(--paper);">Đ</div><div class="name"><strong>Đỗ Minh Khánh</strong><span>Eng</span></div><div class="route"><span class="from-to" data-vn="Q.10 → Q.1" data-en="D.10 → D.1">Q.10 → Q.1</span><span class="mode" data-vn="🛵 xe máy · 6 chuyến" data-en="🛵 motorbike · 6 trips">🛵 xe máy · 6 chuyến</span></div><div class="amt">240k</div><div><span class="flag ok">✓ ok</span></div><button class="row-action approve" data-vn="Duyệt" data-en="Approve">Duyệt</button></div>
+                <div class="claim-row"><div class="ava" style="background:var(--grape);color:var(--paper);">B</div><div class="name"><strong>Bùi Lan Hương</strong><span>Finance</span></div><div class="route"><span class="from-to" data-vn="Bình Tân → Q.1" data-en="Binh Tan → D.1">Bình Tân → Q.1</span><span class="mode">🚌 metro + 🛵</span></div><div class="amt">156k</div><div><span class="flag ok">✓ ok</span></div><button class="row-action approve" data-vn="Duyệt" data-en="Approve">Duyệt</button></div>
+                <div class="claim-row"><div class="ava" style="background:var(--rose);">H</div><div class="name"><strong>Hoàng Tú Quyên</strong><span>Design</span></div><div class="route"><span class="from-to" data-vn="Q.4 → Q.1" data-en="D.4 → D.1">Q.4 → Q.1</span><span class="mode" data-vn="🛵 + 🅿️ gửi xe lẻ" data-en="🛵 + 🅿️ ad-hoc parking">🛵 + 🅿️ gửi xe lẻ</span></div><div class="amt">198k</div><div><span class="flag warn" data-vn="⚠ xem" data-en="⚠ check">⚠ xem</span></div><button class="row-action" data-vn="Xem" data-en="View">Xem</button></div>
+              </div>
+            </div>
+            <div>
+              <div class="panel" style="margin-bottom: 16px;">
+                <h3><span data-vn="Pattern rò rỉ" data-en="Leak patterns">Pattern rò rỉ</span><span class="meta" data-vn="auto-dò" data-en="auto-detected">auto-dò</span></h3>
+                <ul class="leak-list">
+                  <li class="leak-item"><div class="num">1</div><div class="body"><strong data-vn="3 claim trùng cùng tuyến tối thứ Sáu" data-en="3 duplicate Friday late-night claims">3 claim trùng cùng tuyến tối thứ Sáu</strong><span data-vn="2 nhân viên · 480k" data-en="2 employees · 480k">2 nhân viên · 480k</span></div></li>
+                  <li class="leak-item"><div class="num warn">2</div><div class="body"><strong data-vn="8 nhân viên claim cao hơn pattern thường" data-en="8 employees claim above typical pattern">8 nhân viên claim cao hơn pattern thường</strong><span data-vn="trung bình +28% so với 3 tháng" data-en="avg +28% vs 3-mo baseline">trung bình +28% so với 3 tháng</span></div></li>
+                  <li class="leak-item"><div class="num info">3</div><div class="body"><strong data-vn="2 chuyến không có check-in văn phòng" data-en="2 trips with no office check-in">2 chuyến không có check-in văn phòng</strong><span data-vn="claim 🛵 nhưng GPS ngoài Q.1" data-en="🛵 claim but GPS outside D.1">claim 🛵 nhưng GPS ngoài Q.1</span></div></li>
+                </ul>
+              </div>
+              <div class="panel">
+                <h3><span data-vn="Hoạt động 12 tuần" data-en="12-week activity">Hoạt động 12 tuần</span><span class="meta" data-vn="đỏ = bất thường" data-en="red = anomaly">đỏ = bất thường</span></h3>
+                <div class="heatmap-wrap"><div class="heatmap" id="heatmap"></div><div class="heatmap-legend" style="margin-top:10px;"><span data-vn="ít" data-en="low">ít</span><span data-vn="nhiều ←" data-en="high ←">nhiều ←</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div id="view-why" class="why-panel">
+    <div class="why-content">
+      <div class="why-head">
+        <h2 data-vn="Sao không phải <em>MoMo</em> hay <em>Money Lover</em>?" data-en="Why not <em>MoMo</em> or <em>Money Lover</em>?">Sao không phải <em>MoMo</em> hay <em>Money Lover</em>?</h2>
+        <span class="meta" data-vn="// thẳng thật" data-en="// the honest cut">// thẳng thật</span>
+      </div>
+      <div class="vs-table">
+        <div class="vs-row head"><div data-vn="Yếu tố" data-en="Dimension">Yếu tố</div><div>Commute.vn</div><div>MoMo / Money Lover / Spendee</div></div>
+        <div class="vs-row"><div class="dim" data-vn="Ghi nhận" data-en="Logging">Ghi nhận</div><div class="us" data-vn="<strong>Tự nhận xe máy</strong> qua GPS + cảm biến. 0 thao tác." data-en="<strong>Auto-detects motorbike trips</strong> via GPS + sensors. Zero typing."><strong>Tự nhận xe máy</strong> qua GPS + cảm biến. 0 thao tác.</div><div class="them" data-vn="Bạn phải tự gõ từng chi tiêu" data-en="You have to type every expense">Bạn phải tự gõ từng chi tiêu</div></div>
+        <div class="vs-row"><div class="dim" data-vn="Phân loại" data-en="Categories">Phân loại</div><div class="us" data-vn="<strong>Xăng, gửi xe, cà phê dọc đường</strong> — đúng kiểu Việt Nam" data-en="<strong>Fuel, parking, on-the-way coffee</strong> — Vietnam-native"><strong>Xăng, gửi xe, cà phê dọc đường</strong> — đúng kiểu Việt Nam</div><div class="them" data-vn='Mục "Đi lại" chung chung' data-en='Generic "Transport"'>Mục "Đi lại" chung chung</div></div>
+        <div class="vs-row"><div class="dim">Insight</div><div class="us" data-vn="<strong>Money Leak Detector</strong> tìm chỗ tiền chảy lặp đi lặp lại" data-en="<strong>Money Leak Detector</strong> finds repeating drips"><strong>Money Leak Detector</strong> tìm chỗ tiền chảy lặp đi lặp lại</div><div class="them" data-vn="Biểu đồ chi tiêu — bạn tự đọc tự hiểu" data-en="Spend chart — you read, you figure it out">Biểu đồ chi tiêu — bạn tự đọc tự hiểu</div></div>
+        <div class="vs-row"><div class="dim" data-vn="Kết quả" data-en="Outcome">Kết quả</div><div class="us" data-vn="<strong>Hoàn phí công ty 1 chạm</strong> — tiền vào ví thật" data-en="<strong>1-tap employer reimbursement</strong> — actual money back"><strong>Hoàn phí công ty 1 chạm</strong> — tiền vào ví thật</div><div class="them" data-vn="Cảm giác tội lỗi sau khi xem chi tiêu" data-en="Guilt after looking at the chart">Cảm giác tội lỗi sau khi xem chi tiêu</div></div>
+      </div>
+      <div class="why-grid">
+        <div class="why-card"><div class="ic">🛵</div><h4 data-vn="Built cho Việt Nam, không port từ phương Tây" data-en="Built for Vietnam, not ported from the West">Built cho Việt Nam, không port từ phương Tây</h4><p data-vn="Hầu hết app commute global giả định ô tô và thẻ. Tụi mình bắt đầu từ xe máy, gửi xe lẻ, và proof không có hóa đơn." data-en="Most global commute apps assume cars and cards. We start from motorbikes, ad-hoc parking, and receipt-less proof.">Hầu hết app commute global giả định ô tô và thẻ. Tụi mình bắt đầu từ xe máy, gửi xe lẻ, và proof không có hóa đơn.</p></div>
+        <div class="why-card"><div class="ic">🪝</div><h4 data-vn="Hook khác hẳn tracker thường" data-en="A hook other trackers don't have">Hook khác hẳn tracker thường</h4><p data-vn="Người ta cài MoMo để trả tiền. Cài Money Lover để ghi sổ. Cài Commute.vn vì <strong>công ty hoàn lại tiền cho bạn 1 chạm</strong>." data-en="People install MoMo to pay. Money Lover to journal. They install Commute.vn because <strong>their employer pays them back, 1 tap</strong>.">Người ta cài MoMo để trả tiền. Cài Money Lover để ghi sổ. Cài Commute.vn vì <strong>công ty hoàn lại tiền cho bạn 1 chạm</strong>.</p></div>
+        <div class="why-card"><div class="ic">🔁</div><h4 data-vn="Một engine, hai mặt: cá nhân + công ty" data-en="One engine, two surfaces: personal + employer">Một engine, hai mặt: cá nhân + công ty</h4><p data-vn="Cùng pattern detection chỉ ra rò rỉ cho bạn — và rò rỉ cho công ty bạn. Đó là moat: data flywheel B2B2C." data-en="The same pattern detector that finds your leaks finds your company's leaks. That's the moat — a B2B2C data flywheel.">Cùng pattern detection chỉ ra rò rỉ cho bạn — và rò rỉ cho công ty bạn. Đó là moat: data flywheel B2B2C.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footnote" data-vn="Hackathon prototype · không phải dữ liệu thật · © 2026" data-en="Hackathon prototype · not real data · © 2026">Hackathon prototype · không phải dữ liệu thật · © 2026</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let lang = 'vn';
+  const langToggle = document.getElementById('langToggle');
+  function applyLang() {
+    document.documentElement.setAttribute('lang', lang === 'vn' ? 'vi' : 'en');
+    document.querySelectorAll('[data-vn]').forEach(el => {
+      const txt = el.getAttribute('data-' + lang);
+      if (txt) el.innerHTML = txt;
+    });
+    langToggle.innerHTML = lang === 'vn'
+      ? '<span class="active">VN</span> / <span>EN</span>'
+      : '<span>VN</span> / <span class="active">EN</span>';
+  }
+  langToggle.addEventListener('click', () => {
+    lang = lang === 'vn' ? 'en' : 'vn';
+    applyLang();
+  });
+
+  document.querySelectorAll('.nav-tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      const v = btn.getAttribute('data-view');
+      document.getElementById('view-prototype').style.display = (v === 'prototype') ? '' : 'none';
+      document.getElementById('view-why').classList.toggle('on', v === 'why');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const s = document.querySelector(`.screen[data-screen="${name}"]`);
+    if (s) {
+      s.classList.add('active');
+      document.getElementById('screenBody').scrollTop = 0;
+    }
+    const isAppScreen = ['home', 'insights', 'claims', 'profile'].includes(name);
+    document.getElementById('tabBar').style.display = isAppScreen ? 'flex' : 'none';
+    if (name !== 'home') {
+      const t = document.getElementById('firstTip');
+      if (t) t.style.display = 'none';
+    }
+  }
+  document.querySelectorAll('[data-go]').forEach(btn => {
+    btn.addEventListener('click', () => showScreen(btn.getAttribute('data-go')));
+  });
+  document.querySelectorAll('[data-go-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-go-tab');
+      showScreen(target);
+      setActiveTab(target);
+    });
+  });
+
+  document.getElementById('loc-office')?.addEventListener('click', e => {
+    const card = e.currentTarget;
+    if (card.classList.contains('set')) return;
+    card.classList.add('set');
+    const span = card.querySelector('.info span');
+    span.textContent = '256 Nguyễn Đình Chiểu, Q.3';
+    card.querySelector('.check').textContent = '✓';
+  });
+
+  document.querySelectorAll('.mode-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.mode-chip').forEach(c => c.classList.remove('on'));
+      chip.classList.add('on');
+    });
+  });
+
+  function setActiveTab(name) {
+    document.querySelectorAll('#tabBar button').forEach(b => {
+      b.classList.toggle('on', b.getAttribute('data-tab') === name);
+    });
+  }
+  document.querySelectorAll('#tabBar button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const t = btn.getAttribute('data-tab');
+      if (t === 'profile') {
+        showToast(lang === 'vn' ? '👤 Trang cá nhân — sẽ làm sau hackathon' : '👤 Profile — coming after hackathon');
+        return;
+      }
+      showScreen(t);
+      setActiveTab(t);
+    });
+  });
+
+  document.getElementById('tabBar').style.display = 'none';
+
+  document.querySelectorAll('.insight-tabs button').forEach(b => {
+    b.addEventListener('click', () => {
+      b.parentElement.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+    });
+  });
+
+  document.getElementById('submitClaimBtn')?.addEventListener('click', () => {
+    showToast(lang === 'vn' ? '✅ Đã gửi 8 chuyến · 320.000đ' : '✅ Submitted 8 trips · 320,000đ');
+  });
+
+  document.querySelectorAll('.row-action').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('approve')) {
+        btn.classList.remove('approve');
+        btn.classList.add('approved');
+        btn.textContent = lang === 'vn' ? 'Đã duyệt ✓' : 'Approved ✓';
+      } else {
+        showToast(lang === 'vn' ? '👀 Đang xem chi tiết...' : '👀 Opening details...');
+      }
+    });
+  });
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  (function buildHeatmap() {
+    const map = document.getElementById('heatmap');
+    if (!map) return;
+    const days = ['M','T','W','T','F','S','S'];
+    let html = '<div class="lab"></div>';
+    for (let w = 1; w <= 12; w++) html += `<div class="lab">w${w}</div>`;
+    for (let d = 0; d < 7; d++) {
+      html += `<div class="lab">${days[d]}</div>`;
+      for (let w = 0; w < 12; w++) {
+        const r = Math.random();
+        let cls = '';
+        if (d === 5 || d === 6) cls = r < .5 ? '' : (r < .85 ? 'l1' : 'l2');
+        else cls = r < .15 ? '' : (r < .4 ? 'l1' : (r < .7 ? 'l2' : (r < .92 ? 'l3' : 'l4')));
+        if ((w === 7 && d === 4) || (w === 10 && d === 1) || (w === 4 && d === 6)) cls = 'flag';
+        html += `<div class="cell ${cls}"></div>`;
+      }
+    }
+    map.innerHTML = html;
+  })();
+
+  setTimeout(() => {
+    const t = document.getElementById('firstTip');
+    if (t) { t.style.opacity = '0'; t.style.transition = 'opacity .6s'; }
+    setTimeout(() => { if (t) t.style.display = 'none'; }, 700);
+  }, 6500);
+
+  applyLang();
+</script>
+</body>
+</html>
