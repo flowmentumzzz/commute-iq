@@ -15,7 +15,6 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@commute-iq/domain": ["packages/domain/src/index.ts"],
       "@commute-iq/supabase": ["packages/supabase/src/index.ts"],
       "@commute-iq/ui/*": ["packages/ui/src/*"]
     }
