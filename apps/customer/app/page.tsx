@@ -3,6 +3,7 @@ import { Badge } from "@commute-iq/ui/components/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@commute-iq/ui/components/card";
 
 import { MoneyLeakSpotlight } from "../components/money-leak-spotlight";
+import { ThemeToggle } from "../components/theme-toggle";
 import { TrueCostCalculator } from "../components/true-cost-calculator";
 
 const currency = new Intl.NumberFormat("vi-VN", {
@@ -13,7 +14,7 @@ const currency = new Intl.NumberFormat("vi-VN", {
 
 export default function CustomerHomePage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,hsl(var(--accent)),transparent_34%),linear-gradient(135deg,hsl(var(--background)),#f7dfbb)] px-5 py-6 md:px-10">
+    <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,hsl(var(--accent)),transparent_34%),linear-gradient(135deg,hsl(var(--background)),hsl(var(--secondary)))] px-5 py-6 md:px-10">
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-8">
         <nav className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -25,7 +26,10 @@ export default function CustomerHomePage() {
               <p className="text-sm text-muted-foreground">Vietnam-first commute finance</p>
             </div>
           </div>
-          <Badge variant="secondary">Hackathon MVP</Badge>
+          <div className="flex items-center gap-3">
+            <Badge variant="secondary">Hackathon MVP</Badge>
+            <ThemeToggle />
+          </div>
         </nav>
 
         <TrueCostCalculator />
