@@ -4,7 +4,7 @@ import {
   getManagerDashboardData,
   isAvatarColor,
   mockManagerDashboard
-} from "./manager-dashboard";
+} from "./manager-dashboard.js";
 
 const HEATMAP_ROWS = 7;
 const HEATMAP_COLS = 12;
