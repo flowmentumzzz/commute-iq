@@ -1,6 +1,6 @@
 import { findMoneyLeaks, mockTransactions, type MoneyLeak } from "@commute-iq/domain";
 import { Badge } from "@commute-iq/ui/components/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@commute-iq/ui/components/card";
+import { Card, CardContent } from "@commute-iq/ui/components/card";
 
 const currency = new Intl.NumberFormat("vi-VN", {
   style: "currency",
@@ -43,51 +43,62 @@ export function MoneyLeakSpotlight() {
   const topMeta = CATEGORY_TIPS[top.category];
 
   return (
-    <Card className="bg-card/95">
-      <CardHeader className="gap-3">
-        <Badge className="w-fit" variant="secondary">
-          Money Leak Detector
-        </Badge>
-        <CardTitle className="font-display text-2xl font-black md:text-3xl">
-          {top.merchant} · {top.count} lần / tháng
-        </CardTitle>
-        <CardDescription>
-          {topMeta.label} đang ngốn {currency.format(top.totalAmountVnd)} mỗi tháng. {topMeta.tip}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        <div className="rounded-3xl bg-primary p-5 text-primary-foreground">
-          <p className="text-sm opacity-80">Tiết kiệm khả thi</p>
-          <p className="mt-2 font-display text-3xl font-black md:text-4xl">
-            ~{currency.format(top.estimatedMonthlySavingsVnd)}
-          </p>
-          <p className="mt-2 text-sm opacity-80">
-            Trung bình {currency.format(top.averageAmountVnd)} mỗi lần.
+    <Card className="relative overflow-hidden bg-coral text-paper">
+      <div className="pointer-events-none absolute -bottom-24 -left-12 size-52 rounded-full bg-lime/25 blur-3xl" />
+      <div className="pointer-events-none absolute -right-10 -top-14 size-36 rounded-full bg-paper/15 blur-2xl" />
+      <div className="relative">
+        <div className="flex flex-col gap-3 p-6">
+          <Badge variant="ink" className="w-fit">
+            ✨ MONEY LEAK
+          </Badge>
+          <h3 className="font-display text-2xl font-extrabold leading-tight tracking-tight md:text-3xl">
+            {top.merchant} · {top.count} lần / tháng = {" "}
+            <span className="rounded-md bg-lime px-1.5 text-foreground">
+              {currency.format(top.totalAmountVnd)}
+            </span>
+          </h3>
+          <p className="text-sm leading-relaxed opacity-90">
+            {topMeta.label} đang ngốn ngân sách mỗi tháng. {topMeta.tip}
           </p>
         </div>
-
-        {others.length > 0 && (
-          <div className="flex flex-col gap-2">
-            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Các pattern khác
+        <CardContent className="flex flex-col gap-4 pt-0">
+          <div className="rounded-2xl border-2 border-foreground bg-foreground p-5 text-paper shadow-brutal-sm">
+            <p className="font-mono text-[10px] uppercase tracking-widest opacity-70">
+              Tiết kiệm khả thi
             </p>
-            {others.map((leak) => (
-              <div
-                key={`${leak.merchant}-${leak.category}`}
-                className="flex items-center justify-between rounded-2xl bg-muted px-4 py-3"
-              >
-                <div>
-                  <p className="font-semibold">{leak.merchant}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {leak.count} lần · {CATEGORY_TIPS[leak.category].label}
+            <p className="mt-2 font-display text-3xl font-black leading-none tracking-tight md:text-4xl">
+              <span className="text-lime">~{currency.format(top.estimatedMonthlySavingsVnd)}</span>
+            </p>
+            <p className="mt-2 text-sm opacity-80">
+              Trung bình {currency.format(top.averageAmountVnd)} mỗi lần.
+            </p>
+          </div>
+
+          {others.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <p className="font-mono text-[10px] uppercase tracking-widest opacity-80">
+                Các pattern khác
+              </p>
+              {others.map((leak) => (
+                <div
+                  key={`${leak.merchant}-${leak.category}`}
+                  className="flex items-center justify-between rounded-2xl border-2 border-foreground bg-paper px-4 py-3 text-foreground shadow-brutal-sm"
+                >
+                  <div>
+                    <p className="font-display font-semibold">{leak.merchant}</p>
+                    <p className="font-mono text-[10px] uppercase tracking-wider text-ink-soft">
+                      {leak.count} lần · {CATEGORY_TIPS[leak.category].label}
+                    </p>
+                  </div>
+                  <p className="font-display font-bold tabular-nums">
+                    {currency.format(leak.totalAmountVnd)}
                   </p>
                 </div>
-                <p className="font-semibold">{currency.format(leak.totalAmountVnd)}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </CardContent>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </div>
     </Card>
   );
 }
