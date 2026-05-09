@@ -79,7 +79,33 @@ npx supabase db push
 
 Then add the Supabase URL and keys to the three Vercel projects.
 
-Current Vercel status: the repo contains Vercel-ready app configs, but the Vercel connector required authentication when checked. Authenticate Vercel or run the Vercel CLI from this repo to create the three projects.
+## Supabase Migration Pipeline
+
+Production database changes are applied by [`.github/workflows/supabase-migrations.yml`](/Users/rokamaku/Code/commute-iq/.github/workflows/supabase-migrations.yml:1).
+
+Trigger behavior:
+
+- Runs on pushes to `main`
+- Only runs when `supabase/migrations/**` or `supabase/config.toml` changes
+- Supports manual runs through GitHub Actions `workflow_dispatch`
+
+Required GitHub repository secrets:
+
+```bash
+SUPABASE_ACCESS_TOKEN=
+SUPABASE_DB_PASSWORD=
+SUPABASE_PROJECT_REF=
+```
+
+Workflow behavior:
+
+- Authenticates the Supabase CLI with `SUPABASE_ACCESS_TOKEN`
+- Links the CLI to the hosted project from `SUPABASE_PROJECT_REF`
+- Runs `supabase db push --dry-run`
+- Runs `supabase db push`
+- Runs `supabase config push` only when `supabase/config.toml` changed in the push
+
+Current Vercel status: the repo contains Vercel-ready app configs, and production app deploys run automatically from Git pushes to `main`.
 
 ## Version Note
 

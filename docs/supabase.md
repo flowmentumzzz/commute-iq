@@ -36,6 +36,25 @@ npx supabase db push
 
 After linking, generate fresh TypeScript database types and replace the hand-written starter type in `packages/supabase/src/index.ts`.
 
+## CI/CD
+
+Production migrations are applied automatically by [`.github/workflows/supabase-migrations.yml`](/Users/rokamaku/Code/commute-iq/.github/workflows/supabase-migrations.yml:1).
+
+The workflow runs on merges to `main` only when one of these paths changes:
+
+- `supabase/migrations/**`
+- `supabase/config.toml`
+
+It requires these GitHub repository secrets:
+
+```bash
+SUPABASE_ACCESS_TOKEN=
+SUPABASE_DB_PASSWORD=
+SUPABASE_PROJECT_REF=
+```
+
+`SUPABASE_PROJECT_REF` for the current hosted project is `gyvmqylszjuzjztwogtl`.
+
 ## Schema
 
 `profiles` stores user-level identity metadata. It references `auth.users` and is protected so users can select and update only their own profile.

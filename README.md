@@ -56,3 +56,5 @@ npm run typecheck
 npm run lint
 npm run build
 ```
+
+Vercel deployments run automatically on merges to `main`. Supabase production migrations are also automated through [`.github/workflows/supabase-migrations.yml`](/Users/rokamaku/Code/commute-iq/.github/workflows/supabase-migrations.yml:1) and run only when `supabase/migrations/**` or `supabase/config.toml` changes.
