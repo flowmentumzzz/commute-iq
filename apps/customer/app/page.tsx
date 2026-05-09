@@ -2,6 +2,7 @@ import { mockTransactions, transportComparisons } from "@commute-iq/domain";
 import { Badge } from "@commute-iq/ui/components/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@commute-iq/ui/components/card";
 
+import { MoneyLeakSpotlight } from "../components/money-leak-spotlight";
 import { TrueCostCalculator } from "../components/true-cost-calculator";
 
 const currency = new Intl.NumberFormat("vi-VN", {
@@ -28,6 +29,8 @@ export default function CustomerHomePage() {
         </nav>
 
         <TrueCostCalculator />
+
+        <MoneyLeakSpotlight />
 
         <div className="grid gap-6 lg:grid-cols-2">
           <Card>
