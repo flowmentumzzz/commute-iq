@@ -1,6 +1,6 @@
 # Customer Pass 2 — Task Breakdown
 
-This folder contains seven self-contained implementation plans that take the customer app from the live calculator (PR #1) to a real signed-in product surface — with sign-up via magic link, a proper multi-step onboarding flow, NestJS API integration, and Supabase persistence — all styled to match the prototype.
+This folder contains nine self-contained implementation plans that take the customer app from the live calculator (PR #1) to a real signed-in product surface — magic-link sign-up, a 3-step onboarding flow matching the prototype, a 4-tab employee app shell (home/insights/claims/profile), a B2B manager dashboard in `apps/crm`, NestJS API integration, and Supabase persistence — all styled to match the prototype.
 
 Each plan is meant to be picked up by a separate Claude Code session.
 
@@ -44,21 +44,25 @@ So "sign-up" is plan 01, "onboarding" is plan 06, and the **stitch** between the
 | 04 | [manual-trip-entry.md](./04-manual-trip-entry.md) | T1, T2 | apps/customer + packages/domain | 1d | 00 (style), 01 (Supabase persistence) |
 | 05 | [skip-and-defaults.md](./05-skip-and-defaults.md) | O7 | apps/customer | 0.5d | 00 (style) |
 | 06 | [onboarding-flow.md](./06-onboarding-flow.md) | O8 (and O7 deep-link) | apps/customer | 1.5d | 00 (style), 01 (auth + callback redirect) |
+| 07 | [app-shell-tabs.md](./07-app-shell-tabs.md) | (new) | apps/customer | 2d | 00, 01, 06 (recommended) |
+| 08 | [manager-dashboard.md](./08-manager-dashboard.md) | (new) | apps/crm + packages/domain | 1.5d | 00 |
 
 ## Suggested order
 
 ```
-00 (design) ──┬── 01 (auth) ──┬── 06 (onboarding) ──┐
-              │               └─────── 04 (trip entry) ─┘
-              │   02 (api) ───────────────────────────┐
-              │                                        │
-              ├── 05 (welcome banner)                  ├── ship
-              └─────────────────────────────────────────┘
+00 (design) ──┬── 01 (auth) ── 06 (onboarding) ── 07 (app shell + tabs) ──┐
+              │                                                            ├── 04 (trip entry)
+              │                                                            │
+              │   02 (api, dev-only) ──────────────────────────────────────┤
+              │                                                            ├── ship
+              ├── 05 (welcome banner — moves to /playground via 07) ───────┤
+              │                                                            │
+              └── 08 (manager dashboard) ──────────────────────────────────┘
 
 03 (motorbike data) — fully independent, run any time
 ```
 
-Concretely: ship **00 first**, then 01 / 02 / 03 / 05 in parallel, then 06 once 01 is in (06's auth-callback redirect is documented in plan 01 so it can land before 06 with a benign default that sends everyone to `/`), then 04.
+Concretely: ship **00 first**, then 01 / 03 / 08 in parallel, then 06 once 01 is in (06's auth-callback redirect is documented in plan 01 so it can land before 06 with a benign default that sends everyone to `/`), then 07 once 06 is in, then 04 / 05 / 02 fold in around 07. 02 and 05 are best landed *after* 07 because plan 07 moves both surfaces (the calculator and the welcome banner) to `/playground`.
 
 If a session can't do 00 first (timing, dependencies blocked), it should still write components that **use the prototype tokens by name** (e.g., `bg-lime`, `font-display`) so a later 00 pass can land cleanly.
 
