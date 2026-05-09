@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { calculateTrueCost } from "./commute-cost";
+import { calculateTrueCost } from "./commute-cost.js";
 
 describe("calculateTrueCost", () => {
   it("combines direct, amortized, weather, and routine commute costs", () => {

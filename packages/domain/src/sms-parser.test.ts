@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { parseCommuteTransactions } from "./sms-parser";
+import { parseCommuteTransactions } from "./sms-parser.js";
 
 describe("parseCommuteTransactions", () => {
   it("extracts commute-related transactions from Vietnamese bank and wallet messages", () => {

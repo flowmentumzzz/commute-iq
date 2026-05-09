@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { findMoneyLeaks } from "./money-leak";
-import type { CommuteTransaction } from "./types";
+import { findMoneyLeaks } from "./money-leak.js";
+import type { CommuteTransaction } from "./types.js";
 
 const make = (
   merchant: string,

@@ -1,4 +1,4 @@
-import type { CommuteTransaction, MoneyLeak } from "./types";
+import type { CommuteTransaction, MoneyLeak } from "./types.js";
 
 const SAVINGS_FACTOR_BY_CATEGORY: Record<string, number> = {
   routine: 0.7,
