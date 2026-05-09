@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { NestFactory } from "@nestjs/core";
 import serverless from "serverless-http";
 
-import { AppModule } from "../src/app.module";
+import { AppModule } from "../src/app.module.js";
 
 let cachedHandler: ReturnType<typeof serverless> | undefined;
 
