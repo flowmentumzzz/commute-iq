@@ -11,7 +11,7 @@ commute-iq
 │   ├── crm        Next.js internal CRM UI
 │   └── api        NestJS backend API
 ├── packages
-│   ├── domain     Commute calculation, SMS parsing, mock VN lookup data
+│   ├── domain     Commute calculation, SMS parsing, sample VN lookup data
 │   ├── ui         Shared shadcn-style UI components and Tailwind tokens
 │   └── supabase   Typed Supabase client helpers
 └── supabase       Local config and migrations
@@ -19,13 +19,13 @@ commute-iq
 
 ## Boundaries
 
-`packages/domain` owns business rules that must be consistent across UI and backend. This includes the true-cost formula, commute transaction types, parser behavior, and MVP lookup data.
+`packages/domain` owns business rules that must be consistent across UI and backend. This includes the true-cost formula, commute transaction types, parser behavior, and shared lookup data.
 
 `packages/ui` owns source-controlled UI primitives. The components follow a shadcn-style approach, meaning components are regular project code rather than a black-box dependency.
 
 `packages/supabase` owns database client construction and a first-pass `Database` type. This should later be replaced or refreshed with generated Supabase types once the hosted project is linked.
 
-`apps/customer` is the public product demo. It should stay optimized for the hackathon pitch: clear hero number, visual breakdown, Vietnam-specific insight, and a crisp narrative.
+`apps/customer` is the public product surface. It should stay optimized for the product pitch: clear hero number, visual breakdown, Vietnam-specific insight, and a crisp narrative.
 
 `apps/crm` is the internal operations workspace. It should become the home for transaction review, user cohorts, reimbursement policy setup, and admin workflows.
 

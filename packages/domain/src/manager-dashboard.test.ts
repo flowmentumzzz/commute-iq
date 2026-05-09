@@ -11,7 +11,7 @@ const HEATMAP_COLS = 12;
 
 describe("mockManagerDashboard", () => {
   it("uses the prototype's company + period strings", () => {
-    expect(mockManagerDashboard.company.name).toBe("FPT Software · HCM");
+    expect(mockManagerDashboard.company.name).toBe("Acme Tech · HCM");
     expect(mockManagerDashboard.company.period).toBe("HR · Tháng 5 / 2026");
   });
 

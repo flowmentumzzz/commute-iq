@@ -51,7 +51,7 @@ export const STEP_ORDER: Step[] = ["welcome", "locations", "transport"];
 
 export const TRANSPORT_OPTIONS: Array<{ id: TransportMode; emoji: string; label: string }> = [
   { id: "motorbike", emoji: "🛵", label: "Xe máy" },
-  { id: "grab_be", emoji: "🚖", label: "Grab / Be" },
+  { id: "grab_be", emoji: "🚖", label: "Xe công nghệ" },
   { id: "bus", emoji: "🚌", label: "Buýt / Metro" },
   { id: "bike_walk", emoji: "🚲", label: "Xe đạp / Đi bộ" }
 ];

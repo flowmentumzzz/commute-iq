@@ -9,7 +9,7 @@ const currency = new Intl.NumberFormat("vi-VN", {
 
 const BREAKDOWN = [
   { name: "Xăng + gửi xe", value: 462_000, total: 1_240_000, color: "bg-coral" },
-  { name: "Grab / Be", value: 340_000, total: 1_240_000, color: "bg-leaf" },
+  { name: "Xe công nghệ", value: 340_000, total: 1_240_000, color: "bg-leaf" },
   { name: "Cà phê dọc đường", value: 266_000, total: 1_240_000, color: "bg-rose" },
   { name: "Buýt / Metro", value: 112_000, total: 1_240_000, color: "bg-sky" },
   { name: "Cầu, cao tốc", value: 60_000, total: 1_240_000, color: "bg-bg-2" }

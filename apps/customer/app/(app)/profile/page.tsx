@@ -7,7 +7,7 @@ import { createServerSupabaseClient } from "../../../lib/supabase/server";
 
 const TRANSPORT_LABELS: Record<string, string> = {
   motorbike: "🛵 Xe máy",
-  grab_be: "🚖 Grab / Be",
+  grab_be: "🚖 Xe công nghệ",
   bus: "🚌 Buýt / Metro",
   bike_walk: "🚲 Xe đạp / Đi bộ"
 };
@@ -94,7 +94,7 @@ export default async function ProfileTab() {
             <Link href="/playground">Mở True Cost playground →</Link>
           </Button>
           <p className="font-mono text-[10px] uppercase tracking-widest text-ink-soft">
-            commute.vn · hackathon build · v0.1
+            commute.vn · v0.1
           </p>
         </CardContent>
       </Card>
